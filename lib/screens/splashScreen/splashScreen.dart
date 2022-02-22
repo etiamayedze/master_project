@@ -31,7 +31,7 @@ class _SplashState extends State<Splash> {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Image.asset('assets/images/dj_logo_2.png', height: 200),
+              Lottie.asset('assets/play-dvd-disk.json', height: 300),
               Text('DJBOOK',
                   style: TextStyle(
                       fontSize: 30,
