@@ -46,7 +46,7 @@ class _SignUpState extends State<SignUp> {
         )
       ),
     );
-    final lastNameField = TextField(
+    final lastNameField = TextFormField(
       autofocus: false,
       controller: lastNameEditingController,
       keyboardType: TextInputType.name,
@@ -68,6 +68,32 @@ class _SignUpState extends State<SignUp> {
           prefixIcon: Icon(Icons.account_circle ),
           contentPadding: EdgeInsets.fromLTRB(20, 15, 20, 15),
           hintText: "Nom",
+          border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(10)
+          )
+      ),
+    );
+    final emailField = TextFormField(
+      autofocus: false,
+      controller: emailEditingController,
+      keyboardType: TextInputType.emailAddress,
+      validator: (value){
+        if(value!.isEmpty){
+          return("Entrez votre adresse mail");
+        }
+        if(!RegExp("^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+.[a-z]").hasMatch(value)){
+          return ("Entrez une adresse mail correcte");
+        }
+        return null;
+      },
+      onSaved: (value){
+        emailEditingController.text = value!;
+      },
+      textInputAction: TextInputAction.next,
+      decoration: InputDecoration(
+          prefixIcon: Icon(Icons.mail),
+          contentPadding: EdgeInsets.fromLTRB(20, 15, 20, 15),
+          hintText: "Email",
           border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(10)
           )
