@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:master_project/screens/authentication/authentication.dart';
 import 'package:lottie/lottie.dart';
+
+import '../home/home.dart';
 class Splash extends StatefulWidget {
   const Splash({Key? key}) : super(key: key);
 
@@ -20,7 +22,7 @@ class _SplashState extends State<Splash> {
     Navigator.pushReplacement(
         context,
         MaterialPageRoute(
-            builder: (context) => LoginScreen()));
+            builder: (context) => Home()));
   }
 
   @override
