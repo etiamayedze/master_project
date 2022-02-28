@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class SignUp extends StatefulWidget {
   const SignUp({Key? key}) : super(key: key);
@@ -45,7 +46,33 @@ class _SignUpState extends State<SignUp> {
         )
       ),
     );
-
+    final lastNameField = TextField(
+      autofocus: false,
+      controller: lastNameEditingController,
+      keyboardType: TextInputType.name,
+      validator: (value){
+        RegExp regex = new RegExp(r'^.{3,}$');
+        if(value!.isEmpty){
+          return("Entrez un nom ! Le champs est obligatoire");
+        }
+        if(!regex.hasMatch(value)){
+          return ("le champs doit être de 5 caracteres minimum");
+        }
+        return null;
+      },
+      onSaved: (value){
+        lastNameEditingController.text = value!;
+      },
+      textInputAction: TextInputAction.next,
+      decoration: InputDecoration(
+          prefixIcon: Icon(Icons.account_circle ),
+          contentPadding: EdgeInsets.fromLTRB(20, 15, 20, 15),
+          hintText: "Nom",
+          border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(10)
+          )
+      ),
+    );
 
     return Container();
   }
