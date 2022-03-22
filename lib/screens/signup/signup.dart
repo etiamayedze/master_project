@@ -253,7 +253,10 @@ class _SignUpState extends State<SignUp> {
     userModel.nom = firstNameEditingController.text;
     userModel.prenom = lastNameEditingController.text;
 
-    await firebaseFirestore.collection("users").doc(user.uid).set(userModel.toMap());
+    await firebaseFirestore
+        .collection("users")
+        .doc(user.uid)
+        .set(userModel.toMap());
     Fluttertoast.showToast(
         msg: "Compte créé avec succés",
         toastLength: Toast.LENGTH_SHORT,
