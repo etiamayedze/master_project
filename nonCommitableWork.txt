@@ -1,0 +1,2 @@
+Résolution de conflit de dépendance et des problèmes liés à FireStore
+Un peu de doc par rapport au design de la page principale 
