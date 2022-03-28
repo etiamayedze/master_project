@@ -34,6 +34,7 @@ class _LoginScreenState extends State<LoginScreen> {
     TextEditingController _emailController = TextEditingController();
     TextEditingController _passwordController = TextEditingController();
 
+    final isKeyBoard = MediaQuery.of(context).viewInsets.bottom !=0;
     return Scaffold(
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -41,8 +42,8 @@ class _LoginScreenState extends State<LoginScreen> {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.start,
           children:  [
-            Lottie.asset('assets/dj-logo.json', height: 200, width: 500),
-            const Text("Login",
+            if (!isKeyBoard) Lottie.asset('assets/dj-logo.json', height: 200, width: 500),
+            const Text("LOGIN",
               style: TextStyle(
                   color: Colors.black,
                   fontSize: 44.0,
@@ -77,7 +78,7 @@ class _LoginScreenState extends State<LoginScreen> {
               style: TextStyle(color: Colors.blue),
             ),
             const SizedBox(
-              height: 88.0,
+              height: 50.0,
             ),
             SizedBox(
               width: double.infinity,
@@ -102,7 +103,9 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
               ),
             ),
+            SizedBox(height: 15,),
             Row(
+
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
                 Text("Vous n'avez pas de compte ? "),
