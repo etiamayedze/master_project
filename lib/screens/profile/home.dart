@@ -8,6 +8,7 @@ import 'package:flutter/widgets.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:master_project/data/models/user_model.dart';
+import 'package:master_project/screens/authentication/authentication.dart';
 import 'package:master_project/screens/signup/login.dart';
 import 'package:master_project/screens/global/loading.dart';
 import 'package:path/path.dart' as path;
@@ -174,7 +175,7 @@ class _HomeState extends State<Home> {
   Future<void> Deconnexion(BuildContext context) async {
     await FirebaseAuth.instance.signOut();
     Navigator.of(context)
-        .pushReplacement(MaterialPageRoute(builder: (context) => Login()));
+        .pushReplacement(MaterialPageRoute(builder: (context) => LoginScreen()));
   }
 
   Future<void> _upload(String inputSource) async {

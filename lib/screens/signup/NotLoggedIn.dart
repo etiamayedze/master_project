@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:master_project/screens/authentication/authentication.dart';
 import 'package:master_project/screens/signup/login.dart';
 
 
@@ -25,7 +26,7 @@ class _NotLoggedInState extends State<NotLoggedIn> {
           padding: EdgeInsets.fromLTRB(20, 15, 20, 15),
           minWidth: MediaQuery.of(context).size.width,
           onPressed: (){
-            Navigator.push(context, MaterialPageRoute(builder: (context) => Login()));
+            Navigator.push(context, MaterialPageRoute(builder: (context) => LoginScreen()));
           },
           child: Text(
             "Se connecter",

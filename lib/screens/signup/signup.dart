@@ -212,7 +212,7 @@ class _SignUpState extends State<SignUp> {
                           children: <Widget>[
                             Text("J'ai déjà un compte ! "),
                             GestureDetector(onTap: (){
-                              Navigator.push(context, MaterialPageRoute(builder: (context) => Login()));
+                              Navigator.push(context, MaterialPageRoute(builder: (context) => LoginScreen()));
                             },
                               child: Text("Se connecter",style: TextStyle(fontWeight: FontWeight.w600,fontSize: 15),),)
                           ],

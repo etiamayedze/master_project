@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
+import 'package:master_project/screens/global/navigation.dart';
 import 'package:master_project/screens/home/homePage.dart';
 
 
@@ -88,7 +89,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   User? user = await loginFunction(email: _emailController.text, password: _passwordController.text, context: context);
                   print(user);
                   if( user != null){
-                    Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => MyHomePage(title: "Coucou")));
+                    Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => Navigation()));
                   }
 
                 },
