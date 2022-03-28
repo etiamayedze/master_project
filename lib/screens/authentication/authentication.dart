@@ -77,7 +77,7 @@ class _LoginScreenState extends State<LoginScreen> {
               style: TextStyle(color: Colors.blue),
             ),
             const SizedBox(
-              height: 88.0,
+              height: 50.0,
             ),
             SizedBox(
               width: double.infinity,
@@ -102,7 +102,9 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
               ),
             ),
+            SizedBox(height: 15,),
             Row(
+
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
                 Text("Vous n'avez pas de compte ? "),
