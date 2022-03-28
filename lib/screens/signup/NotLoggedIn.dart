@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:master_project/screens/authentication/authentication.dart';
 import 'package:master_project/screens/signup/login.dart';
+import 'package:master_project/screens/authentication/authentication.dart';
 
 
 class NotLoggedIn extends StatefulWidget {

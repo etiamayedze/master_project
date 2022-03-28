@@ -2,7 +2,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:master_project/screens/global/navigation.dart';
-import 'package:master_project/screens/home/homePage.dart';
+import 'package:master_project/screens/signup/signup.dart';
+//import 'package:master_project/screens/home/homePage.dart';
 
 
 class LoginScreen extends StatefulWidget {
@@ -40,7 +41,7 @@ class _LoginScreenState extends State<LoginScreen> {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.start,
           children:  [
-            Lottie.asset('assets/dj-mixer.json', height: 200, width: 500),
+            Lottie.asset('assets/dj-logo.json', height: 200, width: 500),
             const Text("Login",
               style: TextStyle(
                   color: Colors.black,
@@ -100,6 +101,16 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                 ),
               ),
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                Text("Vous n'avez pas de compte ? "),
+                GestureDetector(onTap: (){
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => SignUp()));
+                },
+                  child: Text("S'inscrire",style: TextStyle(fontWeight: FontWeight.w600,fontSize: 15),),)
+              ],
             ),
           ],
 

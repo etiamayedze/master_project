@@ -43,6 +43,7 @@ class _HomeState extends State<Home> {
         .get()
         .then((value) {
       this.loginUser = UserModel.fromMap(value.data());
+      print(value);
       _getCommentsCount();
     });
   }
