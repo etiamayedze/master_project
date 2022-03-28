@@ -67,6 +67,18 @@ class _navigationState extends State<Navigation> {
         ),
         centerTitle: true,
         backgroundColor: Colors.white,
+        actions: <Widget>[
+          IconButton(
+            icon: const Icon(
+              Icons.textsms,
+              color: Colors.black,
+              size: 35,
+            ),
+            onPressed: () {
+              // do something
+            },
+          )
+        ],
       ),
       body: getBody(),
       floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
