@@ -31,7 +31,7 @@ class _HomeState extends State<Home> {
   var count;
 
   @override
-  void initState() {
+  void initState(){
     super.initState();
     _getActualUser();
   }
@@ -41,13 +41,11 @@ class _HomeState extends State<Home> {
         .collection("users")
         .doc(user!.uid)
         .get()
-        .then((value) {
-      this.loginUser = UserModel.fromMap(value.data());
-      print(value);
+        .then((value){
+      this.loginUser =UserModel.fromMap(value.data());
       _getCommentsCount();
     });
   }
-
   _getCommentsCount() async {
     await FirebaseFirestore.instance
         .collection("comment")
@@ -61,7 +59,6 @@ class _HomeState extends State<Home> {
     });
   }
 
-  @override
   Widget build(BuildContext context) {
     if (!init) return Loading();
     if (isLoading) return Loading();
@@ -75,8 +72,7 @@ class _HomeState extends State<Home> {
               children: <Widget>[
                 SizedBox(
                   height: 100,
-                  child: Image.asset("assets/dj_logo.gif",
-                      fit: BoxFit.contain),
+                  //child: Image.asset("assets/logo-appmobile.png",fit: BoxFit.contain),
                 ),
                 Stack(children: [
                   ClipOval(
@@ -176,7 +172,7 @@ class _HomeState extends State<Home> {
   Future<void> Deconnexion(BuildContext context) async {
     await FirebaseAuth.instance.signOut();
     Navigator.of(context)
-        .pushReplacement(MaterialPageRoute(builder: (context) => LoginScreen()));
+        .pushReplacement(MaterialPageRoute(builder: (context) => Login()));
   }
 
   Future<void> _upload(String inputSource) async {

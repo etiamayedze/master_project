@@ -7,14 +7,16 @@ import 'package:master_project/screens/global/navigation.dart';
 import 'package:master_project/screens/signup/login.dart';
 import 'package:master_project/screens/authentication/authentication.dart';
 
-class SignUp extends StatefulWidget {
-  const SignUp({Key? key}) : super(key: key);
+
+class Signup extends StatefulWidget {
+  const Signup({Key? key}) : super(key: key);
 
   @override
-  _SignUpState createState() => _SignUpState();
+  _SignupState createState() => _SignupState();
 }
 
-class _SignUpState extends State<SignUp> {
+class _SignupState extends State<Signup> {
+
   final _auth = FirebaseAuth.instance;
 
   final _formKey = GlobalKey<FormState>();
@@ -26,6 +28,7 @@ class _SignUpState extends State<SignUp> {
 
   @override
   Widget build(BuildContext context) {
+
     final firstNameField = TextFormField(
       autofocus: false,
       controller: firstNameEditingController,
@@ -33,10 +36,10 @@ class _SignUpState extends State<SignUp> {
       validator: (value) {
         RegExp regex = new RegExp(r'^.{3,}$');
         if (value!.isEmpty) {
-          return ("Enterez un prénom! Le champs est obligatoire");
+          return ("Entrez un prenom ! Le champs est obligatoire");
         }
         if (!regex.hasMatch(value)) {
-          return ("Le champs doit être de 5 caractères minimum");
+          return ("le champs doit être de 5 caracteres minimum");
         }
         return null;
       },
@@ -50,7 +53,8 @@ class _SignUpState extends State<SignUp> {
           hintText: "Prénom",
           border: OutlineInputBorder(borderRadius: BorderRadius.circular(10))),
     );
-    final lastNameField = TextFormField(
+
+    final secondNameField = TextFormField(
       autofocus: false,
       controller: lastNameEditingController,
       keyboardType: TextInputType.name,
@@ -74,6 +78,7 @@ class _SignUpState extends State<SignUp> {
           hintText: "Nom",
           border: OutlineInputBorder(borderRadius: BorderRadius.circular(10))),
     );
+
     final emailField = TextFormField(
       autofocus: false,
       controller: emailEditingController,
@@ -97,6 +102,7 @@ class _SignUpState extends State<SignUp> {
           hintText: "Email",
           border: OutlineInputBorder(borderRadius: BorderRadius.circular(10))),
     );
+
     final passwordField = TextFormField(
       autofocus: false,
       controller: passwordEditingController,
@@ -120,6 +126,7 @@ class _SignUpState extends State<SignUp> {
           hintText: "Mot de passe",
           border: OutlineInputBorder(borderRadius: BorderRadius.circular(10))),
     );
+
     final passwordConfirmationField = TextFormField(
       autofocus: false,
       controller: confirmPasswordEditingController,
@@ -141,6 +148,7 @@ class _SignUpState extends State<SignUp> {
           hintText: "Confirmation Mot de passe",
           border: OutlineInputBorder(borderRadius: BorderRadius.circular(10))),
     );
+
     final signUpButton = Material(
       elevation: 5,
       borderRadius: BorderRadius.circular(30),
@@ -164,93 +172,93 @@ class _SignUpState extends State<SignUp> {
       backgroundColor: Colors.white,
       body: Center(
           child: SingleChildScrollView(
-        child: Container(
-          color: Colors.white,
-          child: Padding(
-            padding: const EdgeInsets.all(36.0),
-            child: Form(
-                key: _formKey,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: <Widget>[
-                    SizedBox(
-                      height: 150,
-                      child: Image.asset(
-                        "assets/dj_logo.gif",
-                        fit: BoxFit.contain,
-                      ),
-                    ),
-                    firstNameField,
-                    SizedBox(
-                      height: 25,
-                    ),
-                    lastNameField,
-                    SizedBox(
-                      height: 25,
-                    ),
-                    emailField,
-                    SizedBox(
-                      height: 25,
-                    ),
-                    passwordField,
-                    SizedBox(
-                      height: 25,
-                    ),
-                    passwordConfirmationField,
-                    SizedBox(
-                      height: 25,
-                    ),
-                    signUpButton,
-                    SizedBox(
-                      height: 15,
-                    ),
-                    Row(
+            child: Container(
+              color: Colors.white,
+              child: Padding(
+                padding: const EdgeInsets.all(36.0),
+                child: Form(
+                    key: _formKey,
+                    child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
                       children: <Widget>[
-                        Text("J'ai déjà un compte ! "),
-                        GestureDetector(
-                          onTap: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => LoginScreen()));
-                          },
-                          child: Text(
-                            "Se connecter",
-                            style: TextStyle(
-                                fontWeight: FontWeight.w600, fontSize: 15),
+                        SizedBox(
+                          height: 150,
+                          child: Image.asset(
+                            "assets/dj_logo.gif",
+                            fit: BoxFit.contain,
                           ),
+                        ),
+                        firstNameField,
+                        SizedBox(
+                          height: 25,
+                        ),
+                        secondNameField,
+                        SizedBox(
+                          height: 25,
+                        ),
+                        emailField,
+                        SizedBox(
+                          height: 25,
+                        ),
+                        passwordField,
+                        SizedBox(
+                          height: 25,
+                        ),
+                        passwordConfirmationField,
+                        SizedBox(
+                          height: 25,
+                        ),
+                        signUpButton,
+                        SizedBox(
+                          height: 15,
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            Text("J'ai déjà un compte ! "),
+                            GestureDetector(
+                              onTap: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => Login()));
+                              },
+                              child: Text(
+                                "Se connecter",
+                                style: TextStyle(
+                                    fontWeight: FontWeight.w600, fontSize: 15),
+                              ),
+                            )
+                          ],
                         )
                       ],
-                    )
-                  ],
-                )),
-          ),
-        ),
-      )),
+                    )),
+              ),
+            ),
+          )),
     );
   }
 
-  void Enregistrement(String email, String password) async {
+  void Enregistrement(String email, String password) async{
     if (_formKey.currentState!.validate()) {
       await _auth
           .createUserWithEmailAndPassword(email: email, password: password)
           .then((value) => {
-            print(value),
-            postDetailsToFirestore()
-          })
+        print(value),
+        postDetailsToFirestore()})
           .catchError((e) {
         Fluttertoast.showToast(
             msg: e!.message,
             toastLength: Toast.LENGTH_SHORT,
             gravity: ToastGravity.SNACKBAR,
             timeInSecForIosWeb: 3,
-            backgroundColor: Colors.blue,
+            backgroundColor: Colors.orange,
             textColor: Colors.black,
             fontSize: 16.0);
       });
     }
+
   }
 
   postDetailsToFirestore() async {
@@ -277,6 +285,6 @@ class _SignUpState extends State<SignUp> {
     Navigator.pushAndRemoveUntil(
         context,
         MaterialPageRoute(builder: (context) => Navigation()),
-        (route) => false);
+            (route) => false);
   }
 }

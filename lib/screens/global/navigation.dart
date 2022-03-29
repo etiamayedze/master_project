@@ -12,14 +12,15 @@ class Navigation extends StatefulWidget {
   const Navigation({Key? key}) : super(key: key);
 
   @override
-  _navigationState createState() => _navigationState();
+  _NavigationState createState() => _NavigationState();
 }
 
-class _navigationState extends State<Navigation> {
+class _NavigationState extends State<Navigation> {
+
   Widget _accueil = Accueil();
   Widget _recherche = Recherche();
   Widget _favoris = Favoris();
-  Widget _profil = Profil();
+  Widget _profil = Profile();
 
   int _selectedIndex = 0;
   static const TextStyle optionStyle =
@@ -32,16 +33,15 @@ class _navigationState extends State<Navigation> {
   }
 
   Widget getBody() {
-    if (_selectedIndex == 0){
+    if (this._selectedIndex == 0) {
       return this._accueil;
-    }else if(_selectedIndex == 1){
+    } else if (this._selectedIndex == 1) {
       return this._recherche;
-    }else if(_selectedIndex == 2){
+    } else if (this._selectedIndex == 2) {
       return this._favoris;
-    }else {
+    } else {
       return this._profil;
     }
-
   }
 
   @override
@@ -53,12 +53,12 @@ class _navigationState extends State<Navigation> {
           mainAxisAlignment: MainAxisAlignment.center,
           mainAxisSize: MainAxisSize.min,
           children: [
-            Text('DJ ',
+            Text('Dj',
                 style: GoogleFonts.mochiyPopOne(
                   color: CupertinoColors.black,
                   fontSize: 25,
                 )),
-            Text('Booking',
+            Text(' Booking',
                 style: GoogleFonts.mochiyPopOne(
                   color: Colors.blue,
                   fontSize: 25,
@@ -67,18 +67,6 @@ class _navigationState extends State<Navigation> {
         ),
         centerTitle: true,
         backgroundColor: Colors.white,
-        actions: <Widget>[
-          IconButton(
-            icon: const Icon(
-              Icons.textsms,
-              color: Colors.black,
-              size: 35,
-            ),
-            onPressed: () {
-              // do something
-            },
-          )
-        ],
       ),
       body: getBody(),
       floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
