@@ -4,6 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:lottie/lottie.dart';
 import '../accueil/accueil.dart';
+import '../chat/chatList.dart';
 import '../profile/profile.dart';
 import '../favoris/favoris.dart';
 import '../recherche/recherche.dart';
@@ -75,7 +76,10 @@ class _navigationState extends State<Navigation> {
               size: 35,
             ),
             onPressed: () {
-              // do something
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => ChatList()),
+              );
             },
           )
         ],
