@@ -110,7 +110,7 @@ class _LoginScreenState extends State<LoginScreen> {
               children: <Widget>[
                 Text("Vous n'avez pas de compte ? "),
                 GestureDetector(onTap: (){
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => SignUp()));
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => Signup()));
                 },
                   child: Text("S'inscrire",style: TextStyle(fontWeight: FontWeight.w600,fontSize: 15),),)
               ],
