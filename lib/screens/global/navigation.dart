@@ -4,6 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:lottie/lottie.dart';
 import '../accueil/accueil.dart';
+import '../chat/chatList.dart';
 import '../profile/profile.dart';
 import '../favoris/favoris.dart';
 import '../recherche/recherche.dart';
@@ -12,11 +13,10 @@ class Navigation extends StatefulWidget {
   const Navigation({Key? key}) : super(key: key);
 
   @override
-  _NavigationState createState() => _NavigationState();
+  _navigationState createState() => _navigationState();
 }
 
-class _NavigationState extends State<Navigation> {
-
+class _navigationState extends State<Navigation> {
   Widget _accueil = Accueil();
   Widget _recherche = Recherche();
   Widget _favoris = Favoris();
@@ -33,15 +33,16 @@ class _NavigationState extends State<Navigation> {
   }
 
   Widget getBody() {
-    if (this._selectedIndex == 0) {
+    if (_selectedIndex == 0){
       return this._accueil;
-    } else if (this._selectedIndex == 1) {
+    }else if(_selectedIndex == 1){
       return this._recherche;
-    } else if (this._selectedIndex == 2) {
+    }else if(_selectedIndex == 2){
       return this._favoris;
-    } else {
+    }else {
       return this._profil;
     }
+
   }
 
   @override
@@ -53,12 +54,12 @@ class _NavigationState extends State<Navigation> {
           mainAxisAlignment: MainAxisAlignment.center,
           mainAxisSize: MainAxisSize.min,
           children: [
-            Text('Dj',
+            Text('DJ ',
                 style: GoogleFonts.mochiyPopOne(
                   color: CupertinoColors.black,
                   fontSize: 25,
                 )),
-            Text(' Booking',
+            Text('Booking',
                 style: GoogleFonts.mochiyPopOne(
                   color: Colors.blue,
                   fontSize: 25,
@@ -67,6 +68,21 @@ class _NavigationState extends State<Navigation> {
         ),
         centerTitle: true,
         backgroundColor: Colors.white,
+        actions: <Widget>[
+          IconButton(
+            icon: const Icon(
+              Icons.textsms,
+              color: Colors.black,
+              size: 35,
+            ),
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => ChatList()),
+              );
+            },
+          )
+        ],
       ),
       body: getBody(),
       floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
