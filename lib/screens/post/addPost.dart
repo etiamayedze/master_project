@@ -1,7 +1,9 @@
 import 'dart:typed_data';
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:master_project/providers/userProvider.dart';
 import 'package:master_project/utils/utils.dart';
 class AddPost extends StatefulWidget {
   const AddPost({Key? key}) : super(key: key);
@@ -52,6 +54,7 @@ class _AddPostState extends State<AddPost> {
   @override
   Widget build(BuildContext context) {
 
+    //final User user = Provider.of<UserProvider>(context)
     return _file == null
         ? Center(
       child: IconButton(
