@@ -1,2 +1,6 @@
 Résolution de conflit de dépendance et des problèmes liés à FireStore
-Un peu de doc par rapport au design de la page principale 
+Un peu de doc par rapport au design de la page principale
+
+05/04/2022
+- Revue de l'architecture de la partie chat (toujours en cours)
+- Documentation
