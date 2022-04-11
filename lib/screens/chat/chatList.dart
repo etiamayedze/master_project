@@ -1,6 +1,9 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:master_project/data/models/user_model.dart';
+import 'package:master_project/screens/authentication/dbservice.dart';
 
 class ChatList extends StatefulWidget {
   const ChatList({Key? key}) : super(key: key);
@@ -36,6 +39,26 @@ class _ChatListState extends State<ChatList> {
             ),
           ),
         ],
+      ),
+      body: StreamBuilder<List<UserModel>>(
+        stream: DbServices().getDiscussionUser,
+        builder: (_,s){
+          if(s.hasData){
+            final users = s.data;
+            return ListView.builder(itemBuilder: (ctx, i){
+              final user = users![i];
+              print(user.nom);
+              return ListTile(
+                title: Text(user.nom!),
+                subtitle: Text(user.email!),
+              );
+            });
+          }else{
+            return Center(
+              child: CircularProgressIndicator()
+            );
+          }
+        },
       ),
     );
   }
