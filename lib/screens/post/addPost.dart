@@ -3,7 +3,6 @@ import 'dart:typed_data';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:master_project/providers/userProvider.dart';
 import 'package:master_project/utils/utils.dart';
 class AddPost extends StatefulWidget {
   const AddPost({Key? key}) : super(key: key);
@@ -46,6 +45,7 @@ class _AddPostState extends State<AddPost> {
               });
             },
           ),
+
         ],
       );
     });
@@ -97,7 +97,7 @@ class _AddPostState extends State<AddPost> {
                 width: MediaQuery.of(context).size.width*0.4,
                 child: TextField(
                   decoration: const InputDecoration(
-                    hintText: 'Write a caption...',
+                    hintText: 'Ajouter une légende...',
                     border: InputBorder.none,
                   ),
                   maxLines: 8,
