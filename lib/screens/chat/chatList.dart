@@ -45,10 +45,24 @@ class _ChatListState extends State<ChatList> {
         builder: (_,s){
           if(s.hasData){
             final users = s.data;
-            return ListView.builder(itemBuilder: (ctx, i){
-              final user = users![i];
+            return users!.length ==0 ? Center(
+              child: Text("Aucune discussion"),
+            ):ListView.builder(
+                itemCount: users.length,
+                itemBuilder: (ctx, i){
+              final user = users[i];
               print(user.nom);
               return ListTile(
+                leading: Container(
+                  alignment: Alignment.center,
+                  height: 60,
+                  width: 60,
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: Colors.blueGrey.withOpacity(.5),
+                  ),
+                  child: Icon(Icons.person),
+                ),
                 title: Text(user.nom!),
                 subtitle: Text(user.email!),
               );
