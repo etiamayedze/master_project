@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:master_project/data/models/user_model.dart';
 import 'package:master_project/screens/authentication/dbservice.dart';
+import 'package:master_project/screens/chat/chatDiscussion.dart';
 
 class ChatList extends StatefulWidget {
   const ChatList({Key? key}) : super(key: key);
@@ -53,6 +54,12 @@ class _ChatListState extends State<ChatList> {
               final user = users[i];
               print(user.nom);
               return ListTile(
+                onTap: (){
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => ChatDiscussion(user: user,)),
+                  );
+                },
                 leading: Container(
                   alignment: Alignment.center,
                   height: 60,
