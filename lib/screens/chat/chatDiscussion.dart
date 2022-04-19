@@ -32,7 +32,11 @@ class ChatDiscussion extends StatelessWidget {
         padding: const EdgeInsets.all(8.0),
         child: Column(
           children: [
-            Expanded(child: Container(),),
+            Expanded(child: ListView(
+              children: [
+
+              ],
+            ),),
             Row(
               children: [
                 Expanded(
