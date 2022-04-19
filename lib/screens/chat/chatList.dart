@@ -5,6 +5,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:master_project/data/models/user_model.dart';
 import 'package:master_project/screens/authentication/dbservice.dart';
 import 'package:master_project/screens/chat/chatDiscussion.dart';
+import 'package:master_project/screens/global/navigation.dart';
 
 class ChatList extends StatefulWidget {
   const ChatList({Key? key}) : super(key: key);
@@ -27,7 +28,10 @@ class _ChatListState extends State<ChatList> {
         leading: GestureDetector(
           child: Icon( Icons.arrow_back_ios, color: Colors.black,  ),
           onTap: () {
-            Navigator.pop(context);
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => Navigation()),
+            );
           } ,
         ) ,
         actions: [
