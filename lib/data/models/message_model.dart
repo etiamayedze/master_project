@@ -1,5 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:master_project/screens/authentication/auth_service.dart';
+import 'package:master_project/services/auth_service.dart';
 
 class Message{
   String? uid;
