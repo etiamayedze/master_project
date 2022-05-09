@@ -15,18 +15,30 @@ class MessageBlock extends StatelessWidget {
         Container(
           decoration: BoxDecoration(
             borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(10),
-              topRight: Radius.circular(10),
-              bottomLeft: msg!.itsMe?Radius.circular(10):Radius.circular(0),
-              bottomRight: msg!.itsMe?Radius.circular(0):Radius.circular(10),
+              topRight: Radius.circular(15),
+              topLeft: Radius.circular(15),
+              bottomRight: msg!.itsMe?Radius.circular(0):Radius.circular(15),
+              bottomLeft: msg!.itsMe?Radius.circular(15):Radius.circular(0),
+
             ),
+            color: msg!.itsMe? Colors.blueGrey : Colors.lightBlue.withOpacity(.7),
           ),
+          padding: EdgeInsets.all(16),
           constraints: BoxConstraints(
             minWidth: 30,
             minHeight: 40,
             maxWidth: screenWidth/1.1,
           ),
-          child: Text(msg!.contenu!),
+          child: Column(
+            children: [
+              Text(msg!.contenu!,
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 18,
+                ),
+              ),
+            ],
+          ),
         ),
       ],
     );

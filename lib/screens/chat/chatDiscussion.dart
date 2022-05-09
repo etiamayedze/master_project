@@ -57,11 +57,16 @@ class _ChatDiscussionState extends State<ChatDiscussion> {
                       stream: DbServices().getMessage(widget.user!.uid!, false ),
                       builder: (context, snapshot2) {
                         if (snapshot2.hasData) {
-                          final messages = [
+                          var messages = [
                             ...snapshot1.data!,
                             ...snapshot2.data!
                           ];
                           messages.sort((msg1, msg2) =>msg1.deliveryDate!.compareTo(msg2.deliveryDate!));
+                          messages = messages.reversed.toList();
+                          // 27:58
+                          // 27:58
+                          // 27:58
+                          // 27:58
                           return messages.length == 0?Center(
                             child: Lottie.asset('assets/messages.json'),
                           ): ListView.builder(
@@ -69,8 +74,11 @@ class _ChatDiscussionState extends State<ChatDiscussion> {
                             itemCount: messages.length,
                             itemBuilder: (context, index) {
                               final msg = messages[index];
-                              return MessageBlock(
-                                msg: msg,
+                              return Container(
+                                child: MessageBlock(
+                                  msg: msg,
+                                ),
+                                margin: EdgeInsets.only(bottom: 8),
                               );
                             },
                           );
