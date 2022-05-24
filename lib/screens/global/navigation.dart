@@ -3,6 +3,7 @@ import 'package:flutter/widgets.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:lottie/lottie.dart';
+import 'package:master_project/screens/profile/user_profile.dart';
 import '../accueil/accueil.dart';
 import '../chat/chatList.dart';
 import '../profile/profile.dart';
@@ -20,7 +21,7 @@ class _navigationState extends State<Navigation> {
   Widget _accueil = Accueil();
   Widget _recherche = Recherche();
   Widget _favoris = Favoris();
-  Widget _profil = Profile();
+  Widget _profil = UserProfile();
 
   int _selectedIndex = 0;
   static const TextStyle optionStyle =
@@ -48,42 +49,6 @@ class _navigationState extends State<Navigation> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        leading: Lottie.asset("assets/dj.json"),
-        title: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Text('DJ ',
-                style: GoogleFonts.mochiyPopOne(
-                  color: CupertinoColors.black,
-                  fontSize: 25,
-                )),
-            Text('Booking',
-                style: GoogleFonts.mochiyPopOne(
-                  color: Colors.blue,
-                  fontSize: 25,
-                ))
-          ],
-        ),
-        centerTitle: true,
-        backgroundColor: Colors.white,
-        actions: <Widget>[
-          IconButton(
-            icon: const Icon(
-              Icons.textsms,
-              color: Colors.black,
-              size: 35,
-            ),
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => ChatList()),
-              );
-            },
-          )
-        ],
-      ),
       body: getBody(),
       floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
       bottomNavigationBar: BottomNavigationBar(

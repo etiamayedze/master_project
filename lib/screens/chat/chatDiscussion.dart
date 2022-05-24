@@ -50,40 +50,42 @@ class _ChatDiscussionState extends State<ChatDiscussion> {
           children: [
             Expanded(
               child: StreamBuilder<List<Message>>(
-                stream: DbServices().getMessage(widget.user!.uid!, ),
+                stream: DbServices().getMessage(
+                  widget.user!.uid!,
+                ),
                 builder: (context, snapshot1) {
                   if (snapshot1.hasData) {
                     return StreamBuilder<List<Message>>(
-                      stream: DbServices().getMessage(widget.user!.uid!, false ),
+                      stream: DbServices().getMessage(widget.user!.uid!, false),
                       builder: (context, snapshot2) {
                         if (snapshot2.hasData) {
                           var messages = [
                             ...snapshot1.data!,
                             ...snapshot2.data!
                           ];
-                          messages.sort((msg1, msg2) =>msg1.deliveryDate!.compareTo(msg2.deliveryDate!));
+                          messages.sort((msg1, msg2) =>
+                              msg1.deliveryDate!.compareTo(msg2.deliveryDate!));
                           messages = messages.reversed.toList();
-                          // 27:58
-                          // 27:58
-                          // 27:58
-                          // 27:58
-                          return messages.length == 0?Center(
-                            child: Lottie.asset('assets/messages.json'),
-                          ): ListView.builder(
-                            reverse: true,
-                            itemCount: messages.length,
-                            itemBuilder: (context, index) {
-                              final msg = messages[index];
-                              return Container(
-                                child: MessageBlock(
-                                  msg: msg,
-                                ),
-                                margin: EdgeInsets.only(bottom: 8),
-                              );
-                            },
-                          );
+                          return messages.length == 0
+                              ? Center(
+                                  child: Lottie.asset('assets/messages.json'),
+                                )
+                              : ListView.builder(
+                                  reverse: true,
+                                  itemCount: messages.length,
+                                  itemBuilder: (context, index) {
+                                    final msg = messages[index];
+                                    return Container(
+                                      child: MessageBlock(
+                                        msg: msg,
+                                      ),
+                                      margin: EdgeInsets.only(bottom: 8),
+                                    );
+                                  },
+                                );
                         } else
-                          return Center(child: Lottie.asset('assets/messages.json'));
+                          return Center(
+                              child: Lottie.asset('assets/messages.json'));
                       },
                     );
                   } else
@@ -104,16 +106,18 @@ class _ChatDiscussionState extends State<ChatDiscussion> {
                     ),
                   ),
                 ),
-                IconButton(onPressed: () async {
-                  var msg = Message(
-                    contenu: messageController.text,
-                    deliveryDate: Timestamp.now(),
-                    receiverID: widget.user!.uid,
-                    senderID: AuthServices().user!.uid,
-                  );
-                  messageController.clear();
-                  await DbServices().sendMessage(msg);
-                }, icon: Icon(Icons.send)),
+                IconButton(
+                    onPressed: () async {
+                      var msg = Message(
+                        contenu: messageController.text,
+                        deliveryDate: Timestamp.now(),
+                        receiverID: widget.user!.uid,
+                        senderID: AuthServices().user!.uid,
+                      );
+                      messageController.clear();
+                      await DbServices().sendMessage(msg);
+                    },
+                    icon: Icon(Icons.send)),
               ],
             ),
           ],
