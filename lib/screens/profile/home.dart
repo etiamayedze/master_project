@@ -2,18 +2,13 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:master_project/data/models/user_model.dart';
-import 'package:master_project/screens/authentication/authentication.dart';
 import 'package:master_project/screens/signup/login.dart';
 import 'package:master_project/screens/global/loading.dart';
-import 'package:path/path.dart' as path;
 import 'dart:io';
-import 'package:firebase_core/firebase_core.dart';
 
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);

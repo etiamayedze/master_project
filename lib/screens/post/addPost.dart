@@ -1,9 +1,13 @@
 import 'dart:typed_data';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:master_project/utils/utils.dart';
+
+import '../../data/models/user_model.dart';
 class AddPost extends StatefulWidget {
   const AddPost({Key? key}) : super(key: key);
 
@@ -14,6 +18,19 @@ class AddPost extends StatefulWidget {
 class _AddPostState extends State<AddPost> {
 
   Uint8List? _file;
+  final TextEditingController _descriptionController = TextEditingController();
+  void postImage(
+      String uid,
+      String username,
+      String profImage,
+      )async{
+    try{
+
+    }catch(e){}
+
+
+  }
+
   _selectImage(BuildContext context) async {
     return showDialog(context: context, builder: (context) {
       return SimpleDialog(
@@ -45,9 +62,42 @@ class _AddPostState extends State<AddPost> {
               });
             },
           ),
+          SimpleDialogOption(
+            padding: const EdgeInsets.all(20),
+            child: const Text('Cancel'),
+            onPressed: () async{
+              Navigator.of(context).pop();
+            },
+          ),
 
         ],
       );
+    });
+  }
+
+  @override
+  void dispose(){
+    super.dispose();
+    _descriptionController.dispose();
+  }
+
+
+  @override
+  void initState(){
+    super.initState();
+    _getActualUser();
+  }
+  User? user = FirebaseAuth.instance.currentUser;
+  FirebaseStorage storage = FirebaseStorage.instance;
+  UserModel loginUser = UserModel();
+  _getActualUser() async {
+    await FirebaseFirestore.instance
+        .collection("users")
+        .doc(user!.uid)
+        .get()
+        .then((value){
+      this.loginUser =UserModel.fromMap(value.data());
+
     });
   }
 
@@ -73,7 +123,7 @@ class _AddPostState extends State<AddPost> {
         centerTitle: false,
         actions: [
           TextButton(
-              onPressed:() {},
+              onPressed: postImage(),
               child: const Text('post', style: TextStyle(
                 color: Colors.blueAccent,
                 fontWeight: FontWeight.bold,
@@ -90,12 +140,13 @@ class _AddPostState extends State<AddPost> {
             children: [
               CircleAvatar(
                 backgroundImage: NetworkImage(
-                    'https://images.unsplash.com/photo-1649005200470-3ac8cc79a7bc?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80'
+                    "${loginUser.imgUrl}"
                 ) ,
               ),
               SizedBox(
                 width: MediaQuery.of(context).size.width*0.4,
                 child: TextField(
+                  controller: _descriptionController,
                   decoration: const InputDecoration(
                     hintText: 'Ajouter une légende...',
                     border: InputBorder.none,

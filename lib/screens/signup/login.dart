@@ -61,6 +61,7 @@ class _LoginState extends State<Login> {
         if (!regex.hasMatch(value)) {
           return ("Le mot de passe doit faire au moins 6 caractères");
         }
+        return null;
       },
       onSaved: (value) {
         passwordController.text = value!;

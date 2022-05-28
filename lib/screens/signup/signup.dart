@@ -5,7 +5,6 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:master_project/data/models/user_model.dart';
 import 'package:master_project/screens/global/navigation.dart';
 import 'package:master_project/screens/signup/login.dart';
-import 'package:master_project/screens/authentication/authentication.dart';
 
 
 class Signup extends StatefulWidget {
@@ -115,6 +114,7 @@ class _SignupState extends State<Signup> {
         if (!regex.hasMatch(value)) {
           return ("le mot de passe doit être de 6 caracteres minimum");
         }
+        return null;
       },
       onSaved: (value) {
         passwordEditingController.text = value!;

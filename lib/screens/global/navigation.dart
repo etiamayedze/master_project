@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:lottie/lottie.dart';
 import '../accueil/accueil.dart';
 import '../profile/profile.dart';
-import '../favoris/favoris.dart';
+//import '../favoris/favoris.dart';
 import '../recherche/recherche.dart';
+import '../post/addPost.dart';
 
 class Navigation extends StatefulWidget {
   const Navigation({Key? key}) : super(key: key);
@@ -19,12 +19,10 @@ class _NavigationState extends State<Navigation> {
 
   Widget _accueil = Accueil();
   Widget _recherche = Recherche();
-  Widget _favoris = Favoris();
+  Widget _favoris = AddPost();
   Widget _profil = Profile();
 
   int _selectedIndex = 0;
-  static const TextStyle optionStyle =
-  TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
 
   void _onItemTapped(int index) {
     setState(() {
@@ -88,7 +86,7 @@ class _NavigationState extends State<Navigation> {
           ),
           BottomNavigationBarItem(
             icon: Icon(
-              Icons.favorite,
+              Icons.add_circle_sharp,
             ),
             label: 'Favoris',
             tooltip: 'Favoris',
