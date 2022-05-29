@@ -1,29 +1,77 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lottie/lottie.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 
+import '../../data/models/user_model.dart';
 import '../../widgets/user_profile_stat.dart';
+import '../signup/login.dart';
 
 class UserProfile extends StatefulWidget {
-  const UserProfile({Key? key}) : super(key: key);
+
+  //
+  final String uid;
+  //
+  const UserProfile({Key? key, required this.uid}) : super(key: key);
 
   @override
   State<UserProfile> createState() => _UserProfileState();
 }
 
 class _UserProfileState extends State<UserProfile> {
+
+  //
+  var userData = {};
+  //
+
+  //
+  @override
+  void initState(){
+    super.initState();
+    getUserData();
+  }
+
+  getUserData() async{
+    try{
+    var ds = await FirebaseFirestore.instance.collection('users').doc(widget.uid).get();
+     userData = ds.data()!;
+     setState(() {
+
+     });
+
+    }catch(e){
+      print(e);
+    }
+  }
+  //
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text('Username',
+          title: Text("${userData['nom']} ${userData['prenom']}",
               textAlign: TextAlign.left,
               style: GoogleFonts.mochiyPopOne(
                 color: CupertinoColors.black,
                 fontSize: 20,
               )),
           backgroundColor: Colors.white,
+          actions: <Widget>[
+            IconButton(
+              icon: const Icon(
+                Icons.textsms,
+                color: Colors.black,
+                size: 35,
+              ),
+              onPressed: () {
+                Deconnexion(context);
+              },
+            )
+          ],
         ),
         body: Center(
           child: Column(
@@ -32,12 +80,15 @@ class _UserProfileState extends State<UserProfile> {
             children: [
               CircleAvatar(
                 radius: 50,
+                backgroundImage: NetworkImage(
+                  userData['imgUrl'],
+                ),
               ),
               SizedBox(
                 height: 12.0,
               ),
               Text(
-                "username",
+                "${userData['nom']} ${userData['prenom']}",
                 style: GoogleFonts.mochiyPopOne(
                   color: CupertinoColors.black,
                   fontSize: 15,
@@ -154,4 +205,11 @@ class _UserProfileState extends State<UserProfile> {
       ],
     );
   }
+
+  Future<void> Deconnexion(BuildContext context) async {
+    await FirebaseAuth.instance.signOut();
+    Navigator.of(context)
+        .pushReplacement(MaterialPageRoute(builder: (context) => Login()));
+  }
+
 }

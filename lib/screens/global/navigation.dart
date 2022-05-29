@@ -1,3 +1,5 @@
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -21,7 +23,7 @@ class _navigationState extends State<Navigation> {
   Widget _accueil = Accueil();
   Widget _recherche = Recherche();
   Widget _favoris = Favoris();
-  Widget _profil = UserProfile();
+  Widget _profil = UserProfile(uid: FirebaseAuth.instance.currentUser!.uid,);
 
   int _selectedIndex = 0;
   static const TextStyle optionStyle =

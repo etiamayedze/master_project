@@ -9,6 +9,11 @@ class DbServices{
   var userCollection = FirebaseFirestore.instance.collection('users');
   var messageCollection = FirebaseFirestore.instance.collection('messages');
 
+  Stream<List<UserModel>> get getCurrentUser{
+    return userCollection.where('uid', isEqualTo: AuthServices().user?.uid).snapshots().map((event) => event.docs.map((e) => UserModel.fromMap(e.data())).toList());
+
+  }
+
   Stream<List<UserModel>> get getDiscussionUser{
       return userCollection.where('uid', isNotEqualTo: AuthServices().user?.uid).snapshots().map((event) => event.docs.map((e) => UserModel.fromMap(e.data())).toList());
 
