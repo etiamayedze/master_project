@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lottie/lottie.dart';
 
+import '../../widgets/user_profile_stat.dart';
+
 class UserProfile extends StatefulWidget {
   const UserProfile({Key? key}) : super(key: key);
 
@@ -14,81 +16,120 @@ class _UserProfileState extends State<UserProfile> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Username',
-            textAlign: TextAlign.left,
-            style: GoogleFonts.mochiyPopOne(
-              color: CupertinoColors.black,
-              fontSize: 20,
-            )),
-        backgroundColor: Colors.white,
-      ),
-      body: ListView(
-        children: [
-          Padding(
-            padding: const EdgeInsets.all(15),
-            child: Column(
-              children: [
-                Row(
-                  children: [
-                    CircleAvatar(
-                      radius: 35,
-                      backgroundColor: Colors.black12,
-                    ),
-                    Expanded(
-                      flex: 1,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          customedColumn("post", 10),
-                          customedColumn("post", 10),
-                          TextButton.icon(
-                              label: Text(
-                                'Book',
-                                style: GoogleFonts.mochiyPopOne(
-                                  color: CupertinoColors.black,
-                                  fontSize: 15,
-                                ),
-                              ),
-                              icon: Icon(Icons.book,
-                              color: Colors.black,),
-                              onPressed: () {
-                                print('Pressed');
-                              })
-                        ],
+        appBar: AppBar(
+          title: Text('Username',
+              textAlign: TextAlign.left,
+              style: GoogleFonts.mochiyPopOne(
+                color: CupertinoColors.black,
+                fontSize: 20,
+              )),
+          backgroundColor: Colors.white,
+        ),
+        body: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              CircleAvatar(
+                radius: 50,
+              ),
+              SizedBox(
+                height: 12.0,
+              ),
+              Text(
+                "username",
+                style: GoogleFonts.mochiyPopOne(
+                  color: CupertinoColors.black,
+                  fontSize: 15,
+                ),
+              ),
+              Text(
+                "@username",
+                style: GoogleFonts.mochiyPopOne(
+                  color: CupertinoColors.secondaryLabel,
+                  fontSize: 12,
+                ),
+              ),
+              SizedBox(
+                height: 15.0,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  userProfileStat("Publictions", "7"),
+                  userProfileStat("Abonnés", "7"),
+                  userProfileStat("Abonnement", "7"),
+                ],
+              ),
+              SizedBox(
+                height: 15.0,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  FlatButton(
+                    onPressed: () {},
+                    color: Colors.black,
+                    child: Text(
+                      "Follow",
+                      style: GoogleFonts.mochiyPopOne(
+                        color: CupertinoColors.white,
+                        fontSize: 12,
                       ),
                     ),
-                  ],
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    Container(
-                      padding: const EdgeInsets.only(top: 10),
-                      child: TextButton(
-                        child: Container(
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(5),
-                            color: Colors.blue,
-
-                          ),
-                          alignment: Alignment.center,
-                          child: Text('ok'),
-                          height: 27,
-                          width: 125,
-                        ),
-                        onPressed: (){},
+                    padding:
+                        EdgeInsets.symmetric(horizontal: 15.0, vertical: 8.0),
+                  ),
+                  SizedBox(
+                    width: 10.0,
+                  ),
+                  OutlineButton(
+                    onPressed: () {},
+                    color: Colors.white38,
+                    child: Text(
+                      "Message",
+                      style: GoogleFonts.mochiyPopOne(
+                        color: CupertinoColors.black,
+                        fontSize: 15,
                       ),
                     ),
-                  ],
+                    padding: EdgeInsets.symmetric(
+                      horizontal: 15.0,
+                      vertical: 8.0,
+                    ),
+                  ),
+                  SizedBox(
+                    width: 10.0,
+                  ),
+                  FlatButton(
+                    onPressed: () {},
+                    color: Colors.black,
+                    child: Text(
+                      "Devis",
+                      style: GoogleFonts.mochiyPopOne(
+                        color: CupertinoColors.white,
+                        fontSize: 12,
+                      ),
+                    ),
+                    padding:
+                        EdgeInsets.symmetric(horizontal: 15.0, vertical: 8.0),
+                  ),
+                ],
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Divider(
+                  height: 18.0,
+                  thickness: 0.6,
                 ),
-              ],
-            ),
+              ),
+              Expanded(
+                child: Container(),
+              ),
+            ],
           ),
-        ],
-      ),
-    );
+        ));
   }
 
   Column customedColumn(String label, [int? num]) {
