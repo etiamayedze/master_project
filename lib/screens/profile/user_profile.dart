@@ -60,16 +60,24 @@ class _UserProfileState extends State<UserProfile> {
                 fontSize: 20,
               )),
           backgroundColor: Colors.white,
-          actions: <Widget>[
-            IconButton(
-              icon: const Icon(
-                Icons.textsms,
-                color: Colors.black,
-                size: 35,
-              ),
-              onPressed: () {
-                Deconnexion(context);
-              },
+          actions: [
+            PopupMenuButton(
+                icon: Icon(Icons.more_horiz_outlined,
+                  color: Colors.black,
+                ),
+                itemBuilder: (context) => [
+                  PopupMenuItem(
+                    child: Text("Deconnexion"),
+                    onTap: () => Deconnexion(context),
+                    value: 1,
+                  ),
+
+                  /*PopupMenuItem(
+                    child: Text("Second"),
+                    value: 2,
+                  )*/
+
+                ]
             )
           ],
         ),
