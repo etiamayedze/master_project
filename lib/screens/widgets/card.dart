@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class Accueil extends StatelessWidget {
-  const Accueil({Key? key}) : super(key: key);
+class Card extends StatelessWidget {
+  const Card({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -11,7 +11,7 @@ class Accueil extends StatelessWidget {
       ),
       child: Column(
           children: [
-            Container(
+              Container(
               padding: const EdgeInsets.symmetric(
                   vertical: 4,
                   horizontal: 16
@@ -25,7 +25,7 @@ class Accueil extends StatelessWidget {
                   Expanded(
                     child: Padding(
                       padding: const EdgeInsets.only(
-                          left: 8
+                        left: 8
                       ),
                       child: Column(
                         mainAxisSize: MainAxisSize.min,
@@ -67,25 +67,9 @@ class Accueil extends StatelessWidget {
               child: Image.network('https://images.unsplash.com/photo-1493676304819-0d7a8d026dcf?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1074&q=80',
                 fit: BoxFit.cover,
               ),
-            ),
-            //LIKE COMMENT SECTION
-
+            )
           ]
       ),
     );
   }
 }
-
-// class Accueil extends StatefulWidget {
-//   const Accueil({Key? key}) : super(key: key);
-//
-//   @override
-//   _AccueilState createState() => _AccueilState();
-// }
-//
-// class _AccueilState extends State<Accueil> {
-//   @override
-//   Widget build(BuildContext context) {
-//     return Container();
-//   }
-// }

@@ -21,9 +21,14 @@ class _AddPostState extends State<AddPost> {
 
   Uint8List? _file;
   final TextEditingController _descriptionController = TextEditingController();
+
+  bool _isLoading = false;
   void postImage(
       String uid
       )async{
+    setState((){
+      _isLoading = true;
+    });
     try{
       String res = await FirestoreMethods().uploadPost(
           _descriptionController.text,
@@ -31,8 +36,15 @@ class _AddPostState extends State<AddPost> {
           uid
       );
       if(res == "seccess"){
+        setState((){
+          _isLoading = false;
+        });
         showSnacBar('Posted!', context);
+        clearImage();
       }else{
+        setState((){
+          _isLoading = false;
+        });
         showSnacBar(res, context);
       }
     }catch(e){
@@ -111,6 +123,11 @@ class _AddPostState extends State<AddPost> {
     });
   }
 
+  void clearImage(){
+    setState((){
+      _file = null;
+    });
+  }
   @override
   Widget build(BuildContext context) {
 
@@ -127,7 +144,7 @@ class _AddPostState extends State<AddPost> {
         backgroundColor: Colors.black,
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
-          onPressed: () {},
+          onPressed:clearImage,
         ),
         title: const Text('Post to'),
         centerTitle: false,
@@ -144,6 +161,12 @@ class _AddPostState extends State<AddPost> {
       ),
       body: Column(
         children: [
+          _isLoading
+              ? const LinearProgressIndicator()
+              : const Padding(
+            padding: EdgeInsets.only(top: 0),
+          ),
+          const Divider(),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             crossAxisAlignment: CrossAxisAlignment.start,
