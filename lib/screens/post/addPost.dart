@@ -1,3 +1,4 @@
+
 import 'dart:typed_data';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -5,6 +6,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:master_project/providers/firestore_methods.dart';
 import 'package:master_project/utils/utils.dart';
 
 import '../../data/models/user_model.dart';
@@ -20,14 +22,22 @@ class _AddPostState extends State<AddPost> {
   Uint8List? _file;
   final TextEditingController _descriptionController = TextEditingController();
   void postImage(
-      String uid,
-      String username,
-      String profImage,
+      String uid
       )async{
     try{
-
-    }catch(e){}
-
+      String res = await FirestoreMethods().uploadPost(
+          _descriptionController.text,
+          _file!,
+          uid
+      );
+      if(res == "seccess"){
+        showSnacBar('Posted!', context);
+      }else{
+        showSnacBar(res, context);
+      }
+    }catch(e){
+      showSnacBar(e.toString(), context);
+    }
 
   }
 
@@ -123,7 +133,7 @@ class _AddPostState extends State<AddPost> {
         centerTitle: false,
         actions: [
           TextButton(
-              onPressed: postImage(),
+              onPressed: () => postImage(user!.uid),
               child: const Text('post', style: TextStyle(
                 color: Colors.blueAccent,
                 fontWeight: FontWeight.bold,
@@ -162,7 +172,7 @@ class _AddPostState extends State<AddPost> {
                   child: Container(
                     decoration: BoxDecoration(
                       image: DecorationImage(
-                        image: NetworkImage('https://images.unsplash.com/photo-1649005200470-3ac8cc79a7bc?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80'),
+                        image: MemoryImage(_file!),
                         fit: BoxFit.fill,
                         alignment: FractionalOffset.topCenter,
                       ),
