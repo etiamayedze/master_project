@@ -1,4 +1,4 @@
-class UserModel{
+class UserModel {
   String? uid;
   String? email;
   String? nom;
@@ -7,14 +7,23 @@ class UserModel{
   String? imgUrl;
   String? facture;
   String? demolink;
-  List? followers;
-  List? following;
+  String? ville;
+  String? bio;
 
-  UserModel({this.uid, this.email, this.nom, this.prenom, this.username, this.imgUrl = "", this.facture, this.demolink, this.followers, this.following,});
-
+  UserModel(
+      {this.uid,
+      this.email,
+      this.nom,
+      this.prenom,
+      this.username,
+      this.imgUrl = "",
+      this.facture,
+      this.demolink,
+      this.ville,
+      this.bio});
 
 //retour serveur
-  factory UserModel.fromMap(map){
+  factory UserModel.fromMap(map) {
     return UserModel(
       uid: map['uid'],
       email: map['email'],
@@ -24,14 +33,14 @@ class UserModel{
       imgUrl: map['imgUrl'],
       facture: map['facture'],
       demolink: map['demolink'],
-      followers: map['followers'],
-      following: map['following'],
+      ville: map['ville'],
+      bio: map['bio'],
     );
   }
 
 //envoie vers serveur
-  Map<String,dynamic> toMap(){
-    return{
+  Map<String, dynamic> toMap() {
+    return {
       'uid': uid,
       'email': email,
       'nom': nom,
@@ -40,8 +49,8 @@ class UserModel{
       'imgUrl': imgUrl,
       'facture': facture,
       'demolink': demolink,
-      'followers': followers,
-      'following': following,
+      'ville': ville,
+      'bio': bio,
     };
   }
 }

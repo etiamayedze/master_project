@@ -4,10 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lottie/lottie.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_storage/firebase_storage.dart';
-
-import '../../data/models/user_model.dart';
 import '../../widgets/user_profile_stat.dart';
 import '../signup/login.dart';
 
@@ -123,8 +119,6 @@ class _UserProfileState extends State<UserProfile> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   userProfileStat("Publictions", postLenght.toString()),
-                  userProfileStat("Abonnés", "7"),
-                  userProfileStat("Abonnement", "7"),
                 ],
               ),
               SizedBox(
