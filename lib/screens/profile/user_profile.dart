@@ -24,6 +24,7 @@ class UserProfile extends StatefulWidget {
 class _UserProfileState extends State<UserProfile> {
   //
   var userData = {};
+  int postLenght = 0;
   //
 
   //
@@ -35,11 +36,14 @@ class _UserProfileState extends State<UserProfile> {
 
   getUserData() async {
     try {
-      var ds = await FirebaseFirestore.instance
+      var usersnap = await FirebaseFirestore.instance
           .collection('users')
           .doc(widget.uid)
           .get();
-      userData = ds.data()!;
+      
+      var postsnap = await FirebaseFirestore.instance.collection('posts').where('uid', isEqualTo: FirebaseAuth.instance.currentUser!.uid).get();
+      postLenght = postsnap.docs.length;
+      userData = usersnap.data()!;
       setState(() {});
     } catch (e) {
       print(e);
@@ -118,7 +122,7 @@ class _UserProfileState extends State<UserProfile> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  userProfileStat("Publictions", "7"),
+                  userProfileStat("Publictions", postLenght.toString()),
                   userProfileStat("Abonnés", "7"),
                   userProfileStat("Abonnement", "7"),
                 ],

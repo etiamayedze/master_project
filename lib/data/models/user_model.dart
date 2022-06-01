@@ -3,9 +3,14 @@ class UserModel{
   String? email;
   String? nom;
   String? prenom;
-  String imgUrl;
+  String? username;
+  String? imgUrl;
+  String? facture;
+  String? demolink;
+  List? followers;
+  List? following;
 
-  UserModel({this.uid, this.email, this.nom, this.prenom, this.imgUrl = ""});
+  UserModel({this.uid, this.email, this.nom, this.prenom, this.username, this.imgUrl = "", this.facture, this.demolink, this.followers, this.following,});
 
 
 //retour serveur
@@ -15,7 +20,12 @@ class UserModel{
       email: map['email'],
       nom: map['nom'],
       prenom: map['prenom'],
+      username: map['username'],
       imgUrl: map['imgUrl'],
+      facture: map['facture'],
+      demolink: map['demolink'],
+      followers: map['followers'],
+      following: map['following'],
     );
   }
 
@@ -26,7 +36,12 @@ class UserModel{
       'email': email,
       'nom': nom,
       'prenom': prenom,
-      'imgUrl': imgUrl
+      'username': username,
+      'imgUrl': imgUrl,
+      'facture': facture,
+      'demolink': demolink,
+      'followers': followers,
+      'following': following,
     };
   }
 }
