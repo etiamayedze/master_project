@@ -12,7 +12,6 @@ import '../../widgets/user_profile_stat.dart';
 import '../signup/login.dart';
 
 class UserProfile extends StatefulWidget {
-
   //
   final String uid;
   //
@@ -23,27 +22,26 @@ class UserProfile extends StatefulWidget {
 }
 
 class _UserProfileState extends State<UserProfile> {
-
   //
   var userData = {};
   //
 
   //
   @override
-  void initState(){
+  void initState() {
     super.initState();
     getUserData();
   }
 
-  getUserData() async{
-    try{
-    var ds = await FirebaseFirestore.instance.collection('users').doc(widget.uid).get();
-     userData = ds.data()!;
-     setState(() {
-
-     });
-
-    }catch(e){
+  getUserData() async {
+    try {
+      var ds = await FirebaseFirestore.instance
+          .collection('users')
+          .doc(widget.uid)
+          .get();
+      userData = ds.data()!;
+      setState(() {});
+    } catch (e) {
       print(e);
     }
   }
@@ -51,6 +49,11 @@ class _UserProfileState extends State<UserProfile> {
 
   @override
   Widget build(BuildContext context) {
+    if (userData.isEmpty) {
+      return Center(
+          child: CircularProgressIndicator()
+      );
+    }
     return Scaffold(
         appBar: AppBar(
           title: Text("${userData['nom']} ${userData['prenom']}",
@@ -62,23 +65,22 @@ class _UserProfileState extends State<UserProfile> {
           backgroundColor: Colors.white,
           actions: [
             PopupMenuButton(
-                icon: Icon(Icons.more_horiz_outlined,
+                icon: Icon(
+                  Icons.more_horiz_outlined,
                   color: Colors.black,
                 ),
                 itemBuilder: (context) => [
-                  PopupMenuItem(
-                    child: Text("Deconnexion"),
-                    onTap: () => Deconnexion(context),
-                    value: 1,
-                  ),
+                      PopupMenuItem(
+                        child: Text("Deconnexion"),
+                        onTap: () => Deconnexion(context),
+                        value: 1,
+                      ),
 
-                  /*PopupMenuItem(
+                      /*PopupMenuItem(
                     child: Text("Second"),
                     value: 2,
                   )*/
-
-                ]
-            )
+                    ])
           ],
         ),
         body: Center(
@@ -219,5 +221,4 @@ class _UserProfileState extends State<UserProfile> {
     Navigator.of(context)
         .pushReplacement(MaterialPageRoute(builder: (context) => Login()));
   }
-
 }
