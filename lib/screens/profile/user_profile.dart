@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import '../../widgets/customedButton.dart';
 import '../signup/login.dart';
 
 class UserProfile extends StatefulWidget {
@@ -152,81 +153,103 @@ class _UserProfileState extends State<UserProfile> {
                 ],
               ),
               SizedBox(
-                height: 15.0,
+                height: 10.0,
               ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  SizedBox(
-                    width: 10.0,
-                  ),
-                  OutlineButton(
-                    onPressed: () {},
-                    color: Colors.white38,
-                    child: Text(
-                      "Message",
-                      style: GoogleFonts.mochiyPopOne(
-                        color: CupertinoColors.black,
-                        fontSize: 15,
-                      ),
+              FirebaseAuth.instance.currentUser!.uid != widget.uid
+                  ? Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        SizedBox(
+                          width: 2.0,
+                        ),
+
+                        //Bouton pour le booking
+                        CustomedButton(
+                            longueur: 100,
+                            hauteur: 35,
+                            label: "Booker",
+                            function: () {
+                              print('Booked');
+                            }),
+                        SizedBox(
+                          width: 2.0,
+                        ),
+
+                        //Boutton pour télécharger un devis
+                        CustomedButton(
+                            longueur: 100,
+                            hauteur: 35,
+                            label: "Devis",
+                            function: () {}),
+                        SizedBox(
+                          width: 2.0,
+                        ),
+
+                        // Boutton pour envoyer un message
+                        CustomedButton(
+                            longueur: 100,
+                            hauteur: 35,
+                            label: "Message",
+                            function: () {}),
+                      ],
+                    )
+                  : Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        SizedBox(
+                          width: 2.0,
+                        ),
+                        CustomedButton(
+                            longueur: 200,
+                            hauteur: 35,
+                            label: "Modifier profil",
+                            function: () {
+                              print('Booked');
+                            }),
+                      ],
                     ),
-                    padding: EdgeInsets.symmetric(
-                      horizontal: 15.0,
-                      vertical: 8.0,
-                    ),
-                  ),
-                  SizedBox(
-                    width: 10.0,
-                  ),
-                  FlatButton(
-                    onPressed: () {},
-                    color: Colors.black,
-                    child: Text(
-                      "Devis",
-                      style: GoogleFonts.mochiyPopOne(
-                        color: CupertinoColors.white,
-                        fontSize: 12,
-                      ),
-                    ),
-                    padding:
-                        EdgeInsets.symmetric(horizontal: 15.0, vertical: 8.0),
-                  ),
-                ],
-              ),
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Divider(
-                  height: 18.0,
-                  thickness: 0.6,
+                  height: 4.0,
+                  thickness: 0.3,
                 ),
               ),
               Expanded(
                 child: Container(
                   child: FutureBuilder(
-                    future: FirebaseFirestore.instance.collection('posts').where('uid', isEqualTo: widget.uid).get(),
+                    future: FirebaseFirestore.instance
+                        .collection('posts')
+                        .where('uid', isEqualTo: widget.uid)
+                        .get(),
                     builder: (context, snapshot) {
-                      if(snapshot.connectionState == ConnectionState.waiting){
+                      if (snapshot.connectionState == ConnectionState.waiting) {
                         return Center(child: CircularProgressIndicator());
                       }
                       return GridView.builder(
                         shrinkWrap: true,
-                          itemCount: (snapshot.data! as dynamic).docs.length,
-                          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2, crossAxisSpacing: 5, childAspectRatio: 1,),
-                          itemBuilder: (context, index){
-                          DocumentSnapshot snap = (snapshot.data! as dynamic).docs[index];
+                        itemCount: (snapshot.data! as dynamic).docs.length,
+                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 2,
+                          crossAxisSpacing: 3,
+                          mainAxisSpacing: 3,
+                          childAspectRatio: 1,
+                        ),
+                        itemBuilder: (context, index) {
+                          DocumentSnapshot snap =
+                              (snapshot.data! as dynamic).docs[index];
                           return Container(
                             child: Image(
                               image: NetworkImage(snap['postUrl']),
                               fit: BoxFit.cover,
                             ),
                           );
-                      },
+                        },
                       );
                     },
-
-                  ),
                   ),
                 ),
+              ),
             ],
           ),
         ));
