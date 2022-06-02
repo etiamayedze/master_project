@@ -3,6 +3,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lottie/lottie.dart';
+import 'package:master_project/screens/profile/user_profile.dart';
+
 class Recherche extends StatefulWidget {
   const Recherche({Key? key}) : super(key: key);
 
@@ -14,10 +16,11 @@ class _RechercheState extends State<Recherche> {
   final TextEditingController rechercheController = TextEditingController();
   bool montreUser = false;
   @override
-  void dispose(){
+  void dispose() {
     super.dispose();
     rechercheController.dispose();
   }
+
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -31,45 +34,62 @@ class _RechercheState extends State<Recherche> {
           controller: rechercheController,
           decoration: InputDecoration(
             labelText: 'Recherche',
-
           ),
-          onFieldSubmitted: (String _){
+          onFieldSubmitted: (String _) {
             setState(() {
               montreUser = true;
-            });;
+            });
+            ;
           },
         ),
       ),
-      body: montreUser? StreamBuilder(
-        stream: FirebaseFirestore.instance.collection('users').where('nom', isGreaterThanOrEqualTo: rechercheController.text).snapshots(),
-          builder: (context, snapshot){
-          if (!snapshot.hasData){
-            return Center(
-              child: CircularProgressIndicator(),
-            );
-          }
-          return ListView.builder(
-              itemCount: (snapshot.data! as dynamic).docs.length,
-              itemBuilder: (context, index){
-                return ListTile(
-                  leading: CircleAvatar(
-                    backgroundImage: NetworkImage(
-                        (snapshot.data! as dynamic).docs[index]['imgUrl'],
-                    ),
-                  ),
-                  title: Text((snapshot.data! as dynamic).docs[index]['nom']+' '+(snapshot.data! as dynamic).docs[index]['prenom'],
-                      style: GoogleFonts.mochiyPopOne(
-                        color: CupertinoColors.black,
-                        fontSize: 15,
-                      )
-                  ),
-                );
-              }
-              );
-        },
-      ): Center(
-        child: Lottie.asset('assets/search-users.json'),
-      ),
+      body: montreUser
+          ? StreamBuilder(
+              stream: FirebaseFirestore.instance
+                  .collection('users')
+                  .where('nom',
+                      isGreaterThanOrEqualTo: rechercheController.text)
+                  .snapshots(),
+              builder: (context, snapshot) {
+                if (!snapshot.hasData) {
+                  return Center(
+                    child: CircularProgressIndicator(),
+                  );
+                }
+                return ListView.builder(
+                    itemCount: (snapshot.data! as dynamic).docs.length,
+                    itemBuilder: (context, index) {
+                      return InkWell(
+                        onTap: () => Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (context) => UserProfile(
+                                uid: (snapshot.data! as dynamic).docs[index]
+                                    ['uid']),
+                          ),
+                        ),
+                        child: ListTile(
+                          leading: CircleAvatar(
+                            backgroundImage: NetworkImage(
+                              (snapshot.data! as dynamic).docs[index]['imgUrl'],
+                            ),
+                          ),
+                          title: Text(
+                              (snapshot.data! as dynamic).docs[index]['nom'] +
+                                  ' ' +
+                                  (snapshot.data! as dynamic).docs[index]
+                                      ['prenom'],
+                              style: GoogleFonts.mochiyPopOne(
+                                color: CupertinoColors.black,
+                                fontSize: 15,
+                              )),
+                        ),
+                      );
+                    });
+              },
+            )
+          : Center(
+              child: Lottie.asset('assets/search-users.json'),
+            ),
     );
   }
 }

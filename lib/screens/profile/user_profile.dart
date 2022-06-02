@@ -2,9 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:lottie/lottie.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import '../../widgets/user_profile_stat.dart';
 import '../signup/login.dart';
 
 class UserProfile extends StatefulWidget {
@@ -36,8 +34,11 @@ class _UserProfileState extends State<UserProfile> {
           .collection('users')
           .doc(widget.uid)
           .get();
-      
-      var postsnap = await FirebaseFirestore.instance.collection('posts').where('uid', isEqualTo: FirebaseAuth.instance.currentUser!.uid).get();
+
+      var postsnap = await FirebaseFirestore.instance
+          .collection('posts')
+          .where('uid', isEqualTo: FirebaseAuth.instance.currentUser!.uid)
+          .get();
       postLenght = postsnap.docs.length;
       userData = usersnap.data()!;
       setState(() {});
@@ -50,9 +51,7 @@ class _UserProfileState extends State<UserProfile> {
   @override
   Widget build(BuildContext context) {
     if (userData.isEmpty) {
-      return Center(
-          child: CircularProgressIndicator()
-      );
+      return Center(child: CircularProgressIndicator());
     }
     return Scaffold(
         appBar: AppBar(
@@ -104,21 +103,52 @@ class _UserProfileState extends State<UserProfile> {
                   fontSize: 15,
                 ),
               ),
-              Text(
-                "@username",
-                style: GoogleFonts.mochiyPopOne(
-                  color: CupertinoColors.secondaryLabel,
-                  fontSize: 12,
-                ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Column(
+                    children: [
+                      Text(
+                        "${userData['username']}",
+                        style: GoogleFonts.mochiyPopOne(
+                          color: CupertinoColors.black,
+                          fontSize: 12,
+                        ),
+                      ),
+                    ],
+                  ),
+                  SizedBox(
+                    width: 12.0,
+                  ),
+                  Column(
+                    children: [
+                      Text(
+                        "${userData['ville']} ${userData['pays']}",
+                        style: GoogleFonts.mochiyPopOne(
+                          color: CupertinoColors.secondaryLabel,
+                          fontSize: 12,
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
               ),
               SizedBox(
                 height: 15.0,
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisSize: MainAxisSize.max,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  userProfileStat("Publictions", postLenght.toString()),
+                  Text(
+                    "${userData['bio']}",
+                    style: GoogleFonts.mochiyPopOne(
+                      color: CupertinoColors.secondaryLabel,
+                      fontSize: 12,
+                    ),
+                  ),
                 ],
               ),
               SizedBox(
@@ -127,19 +157,6 @@ class _UserProfileState extends State<UserProfile> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  FlatButton(
-                    onPressed: () {},
-                    color: Colors.black,
-                    child: Text(
-                      "Follow",
-                      style: GoogleFonts.mochiyPopOne(
-                        color: CupertinoColors.white,
-                        fontSize: 12,
-                      ),
-                    ),
-                    padding:
-                        EdgeInsets.symmetric(horizontal: 15.0, vertical: 8.0),
-                  ),
                   SizedBox(
                     width: 10.0,
                   ),
@@ -184,8 +201,32 @@ class _UserProfileState extends State<UserProfile> {
                 ),
               ),
               Expanded(
-                child: Container(),
-              ),
+                child: Container(
+                  child: FutureBuilder(
+                    future: FirebaseFirestore.instance.collection('posts').where('uid', isEqualTo: widget.uid).get(),
+                    builder: (context, snapshot) {
+                      if(snapshot.connectionState == ConnectionState.waiting){
+                        return Center(child: CircularProgressIndicator());
+                      }
+                      return GridView.builder(
+                        shrinkWrap: true,
+                          itemCount: (snapshot.data! as dynamic).docs.length,
+                          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2, crossAxisSpacing: 5, childAspectRatio: 1,),
+                          itemBuilder: (context, index){
+                          DocumentSnapshot snap = (snapshot.data! as dynamic).docs[index];
+                          return Container(
+                            child: Image(
+                              image: NetworkImage(snap['postUrl']),
+                              fit: BoxFit.cover,
+                            ),
+                          );
+                      },
+                      );
+                    },
+
+                  ),
+                  ),
+                ),
             ],
           ),
         ));

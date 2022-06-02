@@ -8,6 +8,7 @@ class UserModel {
   String? facture;
   String? demolink;
   String? ville;
+  String? pays;
   String? bio;
 
   UserModel(
@@ -20,6 +21,7 @@ class UserModel {
       this.facture,
       this.demolink,
       this.ville,
+      this.pays,
       this.bio});
 
 //retour serveur
@@ -34,6 +36,7 @@ class UserModel {
       facture: map['facture'],
       demolink: map['demolink'],
       ville: map['ville'],
+      pays: map['pays'],
       bio: map['bio'],
     );
   }
@@ -50,6 +53,7 @@ class UserModel {
       'facture': facture,
       'demolink': demolink,
       'ville': ville,
+      'pays': pays,
       'bio': bio,
     };
   }
