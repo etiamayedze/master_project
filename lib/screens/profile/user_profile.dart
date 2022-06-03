@@ -1,9 +1,14 @@
+import 'dart:io';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:master_project/data/models/user_model.dart';
+import 'package:path_provider/path_provider.dart';
 import '../../widgets/customedButton.dart';
+import '../chat/chatDiscussion.dart';
 import '../signup/login.dart';
 
 class UserProfile extends StatefulWidget {
@@ -36,6 +41,8 @@ class _UserProfileState extends State<UserProfile> {
           .doc(widget.uid)
           .get();
 
+      UserModel user;
+
       var postsnap = await FirebaseFirestore.instance
           .collection('posts')
           .where('uid', isEqualTo: FirebaseAuth.instance.currentUser!.uid)
@@ -48,6 +55,7 @@ class _UserProfileState extends State<UserProfile> {
     }
   }
   //
+
 
   @override
   Widget build(BuildContext context) {
@@ -180,7 +188,9 @@ class _UserProfileState extends State<UserProfile> {
                             longueur: 100,
                             hauteur: 35,
                             label: "Devis",
-                            function: () {}),
+                            function: () {
+                              downloadFile();
+                            }),
                         SizedBox(
                           width: 2.0,
                         ),
@@ -283,4 +293,50 @@ class _UserProfileState extends State<UserProfile> {
     Navigator.of(context)
         .pushReplacement(MaterialPageRoute(builder: (context) => Login()));
   }
+
+  String getFileName(String url) {
+    RegExp regExp = new RegExp(r'.+(\/|%2F)(.+)\?.+');
+    //This Regex won't work if you remove ?alt...token
+    var matches = regExp.allMatches(url);
+
+    var match = matches.elementAt(0);
+    print("${Uri.decodeFull(match.group(2)!)}");
+    return Uri.decodeFull(match.group(2)!);
+  }
+
+  Future<void> downloadFile() async {
+    final httpsReference = FirebaseStorage.instance.refFromURL(
+        "${userData['facture']}");
+    final appDocDir = await getApplicationDocumentsDirectory();
+    File downloadToFile = File('${appDocDir.path}/devis.pdf');
+    print(downloadToFile);
+    final downloadTask = httpsReference.writeToFile(downloadToFile);
+    downloadTask.snapshotEvents.listen((taskSnapshot) {
+      switch (taskSnapshot.state) {
+        case TaskState.running:
+        // TODO: Handle this case.
+        print("running");
+          break;
+        case TaskState.paused:
+        // TODO: Handle this case.
+          print("paused");
+          break;
+        case TaskState.success:
+        // TODO: Handle this case.
+          print("sucess");
+          break;
+        case TaskState.canceled:
+        // TODO: Handle this case.
+          print("canceled");
+          break;
+        case TaskState.error:
+        // TODO: Handle this case.
+          print("error");
+          break;
+      }
+    });
+
+  }
+
+
 }
