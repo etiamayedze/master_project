@@ -1,15 +1,14 @@
 
 import 'dart:typed_data';
-
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:master_project/providers/firestore_methods.dart';
 import 'package:master_project/utils/utils.dart';
+import 'package:provider/provider.dart';
 
 import '../../data/models/user_model.dart';
+import '../../providers/user_Provider.dart';
+import '../profile/components/profile_menu.dart';
 class AddPost extends StatefulWidget {
   const AddPost({Key? key}) : super(key: key);
 
@@ -20,38 +19,8 @@ class AddPost extends StatefulWidget {
 class _AddPostState extends State<AddPost> {
 
   Uint8List? _file;
-  final TextEditingController _descriptionController = TextEditingController();
-
   bool _isLoading = false;
-  void postImage(
-      String uid
-      )async{
-    setState((){
-      _isLoading = true;
-    });
-    try{
-      String res = await FirestoreMethods().uploadPost(
-          _descriptionController.text,
-          _file!,
-          uid
-      );
-      if(res == "seccess"){
-        setState((){
-          _isLoading = false;
-        });
-        showSnacBar('Posted!', context);
-        clearImage();
-      }else{
-        setState((){
-          _isLoading = false;
-        });
-        showSnacBar(res, context);
-      }
-    }catch(e){
-      showSnacBar(e.toString(), context);
-    }
-
-  }
+  final TextEditingController _descriptionController = TextEditingController();
 
   _selectImage(BuildContext context) async {
     return showDialog(context: context, builder: (context) {
@@ -97,30 +66,36 @@ class _AddPostState extends State<AddPost> {
     });
   }
 
-  @override
-  void dispose(){
-    super.dispose();
-    _descriptionController.dispose();
-  }
 
 
-  @override
-  void initState(){
-    super.initState();
-    _getActualUser();
-  }
-  User? user = FirebaseAuth.instance.currentUser;
-  FirebaseStorage storage = FirebaseStorage.instance;
-  UserModel loginUser = UserModel();
-  _getActualUser() async {
-    await FirebaseFirestore.instance
-        .collection("users")
-        .doc(user!.uid)
-        .get()
-        .then((value){
-      this.loginUser =UserModel.fromMap(value.data());
-
+  void postImage(String? uid,String? username, String profImage)async{
+    setState((){
+      _isLoading = true;
     });
+    try{
+      String res = await FirestoreMethods().uploadPost(
+          _descriptionController.text,
+          _file!,
+          uid!,
+        username!,
+        profImage,
+      );
+      if(res == "success"){
+        setState((){
+          _isLoading = false;
+        });
+        showSnacBar(context,'Posted!');
+        clearImage();
+      }else{
+        setState((){
+          _isLoading = false;
+        });
+        showSnacBar(context, res);
+      }
+    }catch(err){
+      showSnacBar(context,err.toString());
+    }
+
   }
 
   void clearImage(){
@@ -128,10 +103,38 @@ class _AddPostState extends State<AddPost> {
       _file = null;
     });
   }
+
+  @override
+  void dispose(){
+    super.dispose();
+    _descriptionController.dispose();
+  }
+
+  // @override
+  // void initState(){
+  //   super.initState();
+  //   _getActualUser();
+  // }
+
+
+  // User? user = FirebaseAuth.instance.currentUser ;
+  // FirebaseStorage storage = FirebaseStorage.instance;
+  // UserModel loginUser = UserModel();
+  // _getActualUser() async {
+  //   await FirebaseFirestore.instance
+  //       .collection("users")
+  //       .doc(user!.uid)
+  //       .get()
+  //       .then((value){
+  //     this.loginUser =UserModel.fromMap(value.data());
+  //
+  //   });
+  // }
+
   @override
   Widget build(BuildContext context) {
 
-    //final User user = Provider.of<UserProvider>(context)
+    final UserModel user = Provider.of<UserProvider>(context).getUser;
     return _file == null
         ? Center(
       child: IconButton(
@@ -141,7 +144,7 @@ class _AddPostState extends State<AddPost> {
     )
         :Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.black,
+        backgroundColor: mobileBackgroundColor,
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
           onPressed:clearImage,
@@ -150,7 +153,11 @@ class _AddPostState extends State<AddPost> {
         centerTitle: false,
         actions: [
           TextButton(
-              onPressed: () => postImage(user!.uid),
+              onPressed: () => postImage(
+                  user.uid,
+                  user.nom,
+                  user.imgUrl
+              ),
               child: const Text('post', style: TextStyle(
                 color: Colors.blueAccent,
                 fontWeight: FontWeight.bold,
@@ -173,7 +180,7 @@ class _AddPostState extends State<AddPost> {
             children: [
               CircleAvatar(
                 backgroundImage: NetworkImage(
-                    "${loginUser.imgUrl}"
+                    user.imgUrl
                 ) ,
               ),
               SizedBox(

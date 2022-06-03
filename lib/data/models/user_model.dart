@@ -1,11 +1,13 @@
-  class UserModel{
+  import 'package:cloud_firestore/cloud_firestore.dart';
+
+class UserModel{
   String? uid;
   String? email;
   String? nom;
   String? prenom;
   String imgUrl;
 
-  UserModel({this.uid, this.email, this.nom, this.prenom, this.imgUrl = ""});
+  UserModel({this.uid,this.email,this.nom,this.prenom, this.imgUrl = ""});
 
 
 //retour serveur
@@ -29,4 +31,18 @@
       'imgUrl': imgUrl
     };
   }
+
+
+    static UserModel fromSnap(DocumentSnapshot snap) {
+      var snapshot = snap.data() as Map<String, dynamic>;
+
+      return UserModel(
+        uid: snapshot["uid"],
+        email: snapshot["email"],
+        nom: snapshot["nom"],
+        prenom: snapshot["prenom"],
+        imgUrl: snapshot["imgUrl"],
+
+      );
+    }
 }

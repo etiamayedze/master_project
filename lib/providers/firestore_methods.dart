@@ -13,6 +13,8 @@ class FirestoreMethods {
       String description,
       Uint8List file,
       String uid,
+      String username,
+      String profImage,
       ) async {
     String res = "some error";
     try{
@@ -25,6 +27,10 @@ class FirestoreMethods {
         datePubliched: DateTime.now(),
         postUrl: postImage,
         postId: postId,
+        likes: [],
+        username: username,
+        profImage: profImage,
+
 
       );
       _firestore.collection('posts').doc(postId).set(
@@ -36,4 +42,66 @@ class FirestoreMethods {
     }
     return res;
   }
+  Future<String> likePost(String postId, String? uid, List likes) async {
+    String res = "some error occurred";
+    try{
+      if(likes.contains(uid)){
+        await _firestore.collection('posts').doc(postId).update({
+          'likes': FieldValue.arrayRemove([uid])
+
+        });
+      }else{
+        await _firestore.collection('posts').doc(postId).update({
+          'likes': FieldValue.arrayUnion([uid]),
+        });
+      }
+      res = 'success';
+    }catch(err){
+      res = err.toString();
+    }
+    return res;
+  }
+
+  //post comment
+  Future<String> postComment(String postId, String text, String? uid, String? name, String profilePic) async {
+    String res = "somme error occurred";
+    try{
+      if(text.isNotEmpty) {
+        String commentId = const Uuid().v1();
+       await _firestore
+           .collection('posts')
+           .doc(postId)
+           .collection('comments')
+           .doc(commentId)
+           .set({
+          'profilePic':profilePic,
+          'name':name,
+          'uid':uid,
+          'text': text,
+          'commentId':commentId,
+          'datePubliched': DateTime.now(),
+        });
+        res = 'succes s';
+      }else{
+        res = 'Please enter text';
+      }
+    }catch(err){
+      res = err.toString();
+    }
+    return res;
+  }
+
+  // deleting post
+
+Future<String> deletePost(String postId)async {
+    String res = "some error occurred";
+    try{
+      await _firestore.collection('posts').doc(postId).delete();
+      res ='success';
+    }catch(err){
+     res = err.toString();
+    }
+    return res;
+}
+
 }

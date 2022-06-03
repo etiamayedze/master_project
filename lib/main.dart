@@ -2,9 +2,11 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:master_project/providers/user_Provider.dart';
 import 'package:master_project/screens/global/loading.dart';
 import 'package:master_project/screens/global/navigation.dart';
 import 'package:master_project/screens/profile/profile.dart';
+import 'package:provider/provider.dart';
 
 
 
@@ -18,7 +20,14 @@ Future<void> main() async {
   await Hive.openBox(FAVORITES_BOX);
   await Hive.openBox(CONNECTION_BOX);
   await Firebase.initializeApp();
-  runApp(MyApp());
+  runApp(
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => UserProvider(),),
+      ],
+      child:  MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatefulWidget {
@@ -28,6 +37,7 @@ class MyApp extends StatefulWidget {
 
 
 class _MyAppState extends State<MyApp> {
+
   FirebaseAuth auth = FirebaseAuth.instance;
   final box = Hive.box(CONNECTION_BOX);
   bool init = false;

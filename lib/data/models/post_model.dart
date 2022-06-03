@@ -3,10 +3,13 @@ class PostModel{
   String? description;
   String? postId;
   final datePubliched;
+  final likes;
   String? postUrl;
+  String? username;
+  String? profImage;
 
 
-  PostModel({this.uid, this.description,this.postId, this.datePubliched, this.postUrl});
+  PostModel({this.uid, this.description,this.postId, this.datePubliched, this.postUrl, this.likes, this.username, this.profImage});
 
   //retour serveur
   factory PostModel.fromMap(map){
@@ -15,6 +18,9 @@ class PostModel{
       description:map['description'],
       datePubliched:map['datePubliched'],
       postUrl:map['postUrl'],
+        likes: map['likes'],
+      username: map['username'],
+      profImage: map['profImage'],
     );
   }
 
@@ -26,6 +32,9 @@ class PostModel{
       'postId':postId,
       'datePubliched':datePubliched,
       'postUrl':postUrl,
+      'likes':likes,
+      'username':username,
+      'profImage':profImage,
     };
   }
 
