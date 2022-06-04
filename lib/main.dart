@@ -20,14 +20,7 @@ Future<void> main() async {
   await Hive.openBox(FAVORITES_BOX);
   await Hive.openBox(CONNECTION_BOX);
   await Firebase.initializeApp();
-  runApp(
-    MultiProvider(
-      providers: [
-        ChangeNotifierProvider(create: (_) => UserProvider(),),
-      ],
-      child:  MyApp(),
-    ),
-  );
+  runApp(MyApp());
 }
 
 class MyApp extends StatefulWidget {

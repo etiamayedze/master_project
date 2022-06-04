@@ -30,8 +30,6 @@ class FirestoreMethods {
         likes: [],
         username: username,
         profImage: profImage,
-
-
       );
       _firestore.collection('posts').doc(postId).set(
         post.toMap(),

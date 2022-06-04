@@ -1,20 +1,21 @@
 class PostModel{
-  String? uid;
-  String? description;
-  String? postId;
-  final datePubliched;
+  final String uid;
+  final String description;
+  final String postId;
+  final DateTime datePubliched;
   final likes;
-  String? postUrl;
-  String? username;
-  String? profImage;
+  final String postUrl;
+  final String username;
+  final String profImage;
 
 
-  PostModel({this.uid, this.description,this.postId, this.datePubliched, this.postUrl, this.likes, this.username, this.profImage});
+  const PostModel({required this.uid,required this.description,required this.postId,required this.datePubliched,required this.postUrl, this.likes,required this.username,required this.profImage});
 
   //retour serveur
   factory PostModel.fromMap(map){
     return PostModel(
       uid:map['uid'],
+      postId: map['postId'],
       description:map['description'],
       datePubliched:map['datePubliched'],
       postUrl:map['postUrl'],

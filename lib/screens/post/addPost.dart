@@ -1,5 +1,8 @@
 
 import 'dart:typed_data';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:master_project/providers/firestore_methods.dart';
@@ -68,7 +71,7 @@ class _AddPostState extends State<AddPost> {
 
 
 
-  void postImage(String? uid,String? username, String profImage)async{
+  void postImage(String? uid, String? username, String profImage)async{
     setState((){
       _isLoading = true;
     });
@@ -110,31 +113,30 @@ class _AddPostState extends State<AddPost> {
     _descriptionController.dispose();
   }
 
-  // @override
-  // void initState(){
-  //   super.initState();
-  //   _getActualUser();
-  // }
+  @override
+  void initState(){
+    super.initState();
+    _getActualUser();
+  }
 
 
-  // User? user = FirebaseAuth.instance.currentUser ;
-  // FirebaseStorage storage = FirebaseStorage.instance;
-  // UserModel loginUser = UserModel();
-  // _getActualUser() async {
-  //   await FirebaseFirestore.instance
-  //       .collection("users")
-  //       .doc(user!.uid)
-  //       .get()
-  //       .then((value){
-  //     this.loginUser =UserModel.fromMap(value.data());
-  //
-  //   });
-  // }
+  User? user = FirebaseAuth.instance.currentUser ;
+  FirebaseStorage storage = FirebaseStorage.instance;
+  UserModel loginUser = UserModel();
+  _getActualUser() async {
+    await FirebaseFirestore.instance
+        .collection("users")
+        .doc(user!.uid)
+        .get()
+        .then((value){
+      this.loginUser =UserModel.fromMap(value.data());
+
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
 
-    final UserModel user = Provider.of<UserProvider>(context).getUser;
     return _file == null
         ? Center(
       child: IconButton(
@@ -154,9 +156,9 @@ class _AddPostState extends State<AddPost> {
         actions: [
           TextButton(
               onPressed: () => postImage(
-                  user.uid,
-                  user.nom,
-                  user.imgUrl
+                  loginUser.uid,
+                  loginUser.nom,
+                  loginUser.imgUrl
               ),
               child: const Text('post', style: TextStyle(
                 color: Colors.blueAccent,
@@ -180,7 +182,7 @@ class _AddPostState extends State<AddPost> {
             children: [
               CircleAvatar(
                 backgroundImage: NetworkImage(
-                    user.imgUrl
+                    "${loginUser.imgUrl}"
                 ) ,
               ),
               SizedBox(
