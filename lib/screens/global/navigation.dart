@@ -1,8 +1,12 @@
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:lottie/lottie.dart';
+import 'package:master_project/screens/profile/user_profile.dart';
 import '../accueil/accueil.dart';
+import '../chat/chatList.dart';
 import '../profile/profile.dart';
 //import '../favoris/favoris.dart';
 import '../recherche/recherche.dart';
@@ -12,16 +16,14 @@ class Navigation extends StatefulWidget {
   const Navigation({Key? key}) : super(key: key);
 
   @override
-  _NavigationState createState() => _NavigationState();
+  _navigationState createState() => _navigationState();
 }
 
-class _NavigationState extends State<Navigation> {
-
+class _navigationState extends State<Navigation> {
   Widget _accueil = Accueil();
   Widget _recherche = Recherche();
   Widget _favoris = AddPost();
-  Widget _profil = Profile();
-
+  Widget _profil = UserProfile(uid: FirebaseAuth.instance.currentUser!.uid,);
   int _selectedIndex = 0;
 
   void _onItemTapped(int index) {
@@ -31,41 +33,21 @@ class _NavigationState extends State<Navigation> {
   }
 
   Widget getBody() {
-    if (this._selectedIndex == 0) {
+    if (_selectedIndex == 0){
       return this._accueil;
-    } else if (this._selectedIndex == 1) {
+    }else if(_selectedIndex == 1){
       return this._recherche;
-    } else if (this._selectedIndex == 2) {
+    }else if(_selectedIndex == 2){
       return this._favoris;
-    } else {
+    }else {
       return this._profil;
     }
+
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        leading: Lottie.asset("assets/dj.json"),
-        title: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Text('Dj',
-                style: GoogleFonts.mochiyPopOne(
-                  color: CupertinoColors.black,
-                  fontSize: 25,
-                )),
-            Text(' Booking',
-                style: GoogleFonts.mochiyPopOne(
-                  color: Colors.blue,
-                  fontSize: 25,
-                ))
-          ],
-        ),
-        centerTitle: true,
-        backgroundColor: Colors.white,
-      ),
       body: getBody(),
       floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
       bottomNavigationBar: BottomNavigationBar(
@@ -88,8 +70,8 @@ class _NavigationState extends State<Navigation> {
             icon: Icon(
               Icons.add_circle_sharp,
             ),
-            label: 'Favoris',
-            tooltip: 'Favoris',
+            label: 'Post',
+            tooltip: 'Post',
           ),
           BottomNavigationBarItem(
             icon: Icon(

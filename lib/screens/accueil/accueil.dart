@@ -1,7 +1,12 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import '../widgets/post_card.dart';
 
+import 'package:google_fonts/google_fonts.dart';
+import 'package:lottie/lottie.dart';
+
+import '../chat/chatList.dart';
 
 class Accueil extends StatefulWidget {
   const Accueil({Key? key}) : super(key: key);
@@ -15,6 +20,7 @@ class _AccueilState extends State<Accueil> {
   Widget build(BuildContext context) {
     //final width = MediaQuery.of(context).size.width;
     return Scaffold(
+
       body: StreamBuilder(
         stream: FirebaseFirestore.instance.collection('posts').snapshots(),
         builder: (context, AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshot){
@@ -31,29 +37,43 @@ class _AccueilState extends State<Accueil> {
           );
         },
       ),
-      // StreamBuilder(
-      //   stream: FirebaseFirestore.instance.collection('posts').snapshots(),
-      //   builder: (context,
-      //       AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshot){
-      //     if(snapshot.connectionState == ConnectionState.waiting){
-      //       return const Center(
-      //         child: CircularProgressIndicator(),
-      //       );
-      //     }
-      //     return ListView.builder(
-      //       itemCount: snapshot.data!.docs.length,
-      //       itemBuilder: (context, index) => Container(
-      //         margin: EdgeInsets.symmetric(
-      //           horizontal: width > webScreenSize ? width * 0.3 : 0,
-      //           vertical: width > webScreenSize ? 15 : 0,
-      //         ),
-      //         // child:  FeedCard(
-      //         //   snap: snapshot.data!.docs[index].data(),
-      //         // ),
-      //       ),
-      //     );
-      //   },
-      // ),
+
+      appBar: AppBar(
+        leading: Lottie.asset("assets/dj.json"),
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text('DJ ',
+                style: GoogleFonts.mochiyPopOne(
+                  color: CupertinoColors.black,
+                  fontSize: 25,
+                )),
+            Text('Booking',
+                style: GoogleFonts.mochiyPopOne(
+                  color: Colors.blue,
+                  fontSize: 25,
+                ))
+          ],
+        ),
+        centerTitle: true,
+        backgroundColor: Colors.white,
+        actions: <Widget>[
+          IconButton(
+            icon: const Icon(
+              Icons.textsms,
+              color: Colors.black,
+              size: 35,
+            ),
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => ChatList()),
+              );
+            },
+          )
+        ],
+      ),
     );
   }
 }

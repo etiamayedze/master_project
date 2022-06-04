@@ -66,6 +66,7 @@ class _MyAppState extends State<MyApp> {
         title: 'Flutter Demo',
         theme: ThemeData(
           primarySwatch: Colors.blue,
+          accentColor: Colors.black
         ),
         home: Navigation(),
       );
@@ -77,7 +78,7 @@ class _MyAppState extends State<MyApp> {
           primarySwatch: Colors.blue,
         ),
         home: Profile(),
-      );
+      ); //
     }
   }
 }
