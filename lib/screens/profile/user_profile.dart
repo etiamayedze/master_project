@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:master_project/data/models/user_model.dart';
@@ -308,7 +309,7 @@ class _UserProfileState extends State<UserProfile> {
     final httpsReference = FirebaseStorage.instance.refFromURL(
         "${userData['facture']}");
     final appDocDir = await getApplicationDocumentsDirectory();
-    File downloadToFile = File('${appDocDir.path}/devis.pdf');
+    File downloadToFile = File('/storage/emulated/0/Download/devis.pdf');
     print(downloadToFile);
     final downloadTask = httpsReference.writeToFile(downloadToFile);
     downloadTask.snapshotEvents.listen((taskSnapshot) {
@@ -320,18 +321,22 @@ class _UserProfileState extends State<UserProfile> {
         case TaskState.paused:
         // TODO: Handle this case.
           print("paused");
+          Fluttertoast.showToast(msg: "Téléchargement en pause");
           break;
         case TaskState.success:
         // TODO: Handle this case.
           print("sucess");
+          Fluttertoast.showToast(msg: "Téléchargement réussi. Le fichier se trouve dans /storage/emulated/0/Download/ ");
           break;
         case TaskState.canceled:
         // TODO: Handle this case.
           print("canceled");
+          Fluttertoast.showToast(msg: "Téléchargement annulé");
           break;
         case TaskState.error:
         // TODO: Handle this case.
           print("error");
+          Fluttertoast.showToast(msg: "Une erreur est survenue lors du téléchargement");
           break;
       }
     });
