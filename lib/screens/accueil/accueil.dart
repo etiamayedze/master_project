@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import '../widgets/feed_card.dart';
 import '../widgets/test_card.dart';
 
 

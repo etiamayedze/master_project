@@ -5,9 +5,8 @@ class LikeAnimation extends StatefulWidget {
   final bool isAnimating;
   final Duration duration;
   final VoidCallback? onEnd;
-  final bool smallLike;
-  const LikeAnimation({
-    Key? key,
+  final smallLike;
+  const LikeAnimation({Key? key,
     required this.child,
     required this.isAnimating,
     this.duration = const Duration(milliseconds: 150),
@@ -19,20 +18,18 @@ class LikeAnimation extends StatefulWidget {
   State<LikeAnimation> createState() => _LikeAnimationState();
 }
 
-class _LikeAnimationState extends State<LikeAnimation>
-    with SingleTickerProviderStateMixin {
+class _LikeAnimationState extends State<LikeAnimation> with SingleTickerProviderStateMixin{
   late AnimationController controller;
   late Animation<double> scale;
-
-
-  void iniState(){
+  
+  @override
+  void initState(){
     super.initState();
-    controller = AnimationController(
-        vsync: this,
-        duration: Duration(
-            milliseconds: widget.duration.inMilliseconds ~/ 2),
+    controller = AnimationController(vsync: this, duration: Duration(
+        milliseconds: widget.duration.inMilliseconds ~/2
+    ),
     );
-    scale = Tween<double>(begin:1, end: 1.2).animate(controller);
+    scale = Tween<double>(begin: 1, end: 1.2).animate(controller);
   }
 
   @override
@@ -42,6 +39,7 @@ class _LikeAnimationState extends State<LikeAnimation>
       startAnimation();
     }
   }
+
   startAnimation() async{
     if(widget.isAnimating || widget.smallLike){
       await controller.forward();
@@ -62,8 +60,10 @@ class _LikeAnimationState extends State<LikeAnimation>
     controller.dispose();
   }
 
+
   @override
   Widget build(BuildContext context) {
+
     return ScaleTransition(
       scale: scale,
       child: widget.child,

@@ -1,27 +1,39 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+import 'package:master_project/providers/firestore_methods.dart';
+import 'package:master_project/providers/get_user.dart';
 import 'package:master_project/screens/profile/components/profile_menu.dart';
+import 'package:master_project/screens/widgets/likes.dart';
 
-class TestCard extends StatelessWidget {
+class TestCard extends StatefulWidget {
   final snap;
   const TestCard({Key? key, required this.snap}) : super(key: key);
 
   @override
+  State<TestCard> createState() => _TestCardState();
+}
+
+class _TestCardState extends State<TestCard> {
+  bool isLikeAnimating = false;
+
+  @override
   Widget build(BuildContext context) {
+    final getUser = UserDetail();
+
     return Container(
       //color: mobileSearchColor,
       padding: const EdgeInsets.symmetric(vertical: 10),
       child: Column(
         children: [
           Container(
-            padding: const EdgeInsets.symmetric(
-                vertical: 4, horizontal: 16
-            ).copyWith(right: 0),
+            padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 16)
+                .copyWith(right: 0),
             child: Row(
               children: [
                 CircleAvatar(
                   radius: 16,
                   backgroundImage: NetworkImage(
-                      snap['profImage'],
+                    widget.snap['profImage'],
                   ),
                 ),
                 Expanded(
@@ -34,8 +46,9 @@ class TestCard extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          snap['username'],
-                          style: TextStyle(fontWeight: FontWeight.bold,
+                          widget.snap['username'],
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
                           ),
                         ),
                       ],
@@ -76,22 +89,66 @@ class TestCard extends StatelessWidget {
             ),
           ),
           // Image section
-          SizedBox(
-            height: MediaQuery.of(context).size.height * 0.35,
-            width: double.infinity,
-            child: Image.network(
-              snap['postUrl'],
-              fit: BoxFit.cover,
+          GestureDetector(
+            onDoubleTap: () async {
+              await FirestoreMethods().likePost(widget.snap['postId'],
+                  getUser.loginUser.uid, widget.snap['likes']);
+              setState(() {
+                isLikeAnimating = true;
+              });
+            },
+            child: Stack(
+              alignment: Alignment.center,
+              children: [
+                SizedBox(
+                  height: MediaQuery.of(context).size.height * 0.35,
+                  width: double.infinity,
+                  child: Image.network(
+                    widget.snap['postUrl'],
+                    fit: BoxFit.cover,
+                  ),
+                ),
+                AnimatedOpacity(
+                  duration: const Duration(milliseconds: 200),
+                  opacity: isLikeAnimating ? 1 : 0,
+                  child: LikeAnimation(
+                    child: const Icon(Icons.favorite,
+                        color: Colors.white, size: 120),
+                    isAnimating: isLikeAnimating,
+                    duration: const Duration(
+                      milliseconds: 400,
+                    ),
+                    onEnd: () {
+                      setState(() {
+                        isLikeAnimating = false;
+                      });
+                    },
+                  ),
+                )
+              ],
             ),
           ),
+
           // like comment section
           Row(
             children: [
-              IconButton(
-                onPressed: () {},
-                icon: const Icon(
-                  Icons.favorite,
-                  color: Colors.red,
+              LikeAnimation(
+                isAnimating:
+                    widget.snap['likes'].contains(getUser.loginUser.uid),
+                smallLike: true,
+                child: IconButton(
+                  onPressed: () async {
+                    await FirestoreMethods().likePost(widget.snap['postId'],
+                        getUser.loginUser.uid, widget.snap['likes']);
+                  },
+                  icon: widget.snap['likes'].contains(getUser.loginUser.uid)
+                      ? const Icon(
+                          Icons.favorite,
+                          color: Colors.red,
+                        )
+                      : const Icon(
+                          Icons.favorite_border,
+                        ),
                 ),
               ),
               IconButton(
@@ -131,7 +188,7 @@ class TestCard extends StatelessWidget {
                         fontWeight: FontWeight.w800,
                       ),
                   child: Text(
-                    '1,2311 likes',
+                    '${widget.snap['likes'].length} likes',
                     style: Theme.of(context).textTheme.bodyText2,
                   ),
                 ),
@@ -145,30 +202,33 @@ class TestCard extends StatelessWidget {
                       style: const TextStyle(color: primaryColor),
                       children: [
                         TextSpan(
-                          text: 'username',
+                          text: widget.snap['username'],
                           style: const TextStyle(fontWeight: FontWeight.bold),
                         ),
                         TextSpan(
-                          text: '  Hey is description of posts',
+                          text: '  ${widget.snap['description']}',
                         ),
                       ],
                     ),
                   ),
                 ),
                 InkWell(
-                  onTap: (){},
+                  onTap: () {},
                   child: Container(
                     padding: const EdgeInsets.symmetric(vertical: 4),
                     child: Text(
                       'View all 200 comments',
-                      style: const TextStyle(fontSize: 16, color: secondaryColor),
+                      style:
+                          const TextStyle(fontSize: 16, color: secondaryColor),
                     ),
                   ),
                 ),
                 Container(
                   padding: const EdgeInsets.symmetric(vertical: 4),
                   child: Text(
-                    '04/06/2022',
+                    DateFormat.yMMMd().format(
+                      widget.snap['datePubliched'].toDate(),
+                    ),
                     style: const TextStyle(fontSize: 16, color: secondaryColor),
                   ),
                 ),

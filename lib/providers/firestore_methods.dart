@@ -40,13 +40,13 @@ class FirestoreMethods {
     }
     return res;
   }
+
   Future<String> likePost(String postId, String? uid, List likes) async {
     String res = "some error occurred";
     try{
       if(likes.contains(uid)){
         await _firestore.collection('posts').doc(postId).update({
-          'likes': FieldValue.arrayRemove([uid])
-
+          'likes': FieldValue.arrayRemove([uid]),
         });
       }else{
         await _firestore.collection('posts').doc(postId).update({
