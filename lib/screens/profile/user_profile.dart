@@ -7,9 +7,10 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:master_project/data/models/user_model.dart';
+import 'package:master_project/screens/booking/booking.dart';
+import 'package:master_project/screens/profile/editUserProfile.dart';
 import 'package:path_provider/path_provider.dart';
 import '../../widgets/customedButton.dart';
-import '../chat/chatDiscussion.dart';
 import '../signup/login.dart';
 
 class UserProfile extends StatefulWidget {
@@ -71,7 +72,7 @@ class _UserProfileState extends State<UserProfile> {
                 color: CupertinoColors.black,
                 fontSize: 20,
               )),
-          backgroundColor: Colors.white,
+          backgroundColor: Colors.grey,
           actions: [
             PopupMenuButton(
                 icon: Icon(
@@ -178,7 +179,10 @@ class _UserProfileState extends State<UserProfile> {
                             hauteur: 35,
                             label: "Booker",
                             function: () {
-                              print('Booked');
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(builder: (context) => Booking()),
+                              );
                             }),
                         SizedBox(
                           width: 2.0,
@@ -215,7 +219,10 @@ class _UserProfileState extends State<UserProfile> {
                             hauteur: 35,
                             label: "Modifier profil",
                             function: () {
-                              print('Booked');
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(builder: (context) => EditUserProfile()),
+                              );
                             }),
                       ],
                     ),
@@ -295,7 +302,7 @@ class _UserProfileState extends State<UserProfile> {
         .pushReplacement(MaterialPageRoute(builder: (context) => Login()));
   }
 
-  String getFileName(String url) {
+ /* String getFileName(String url) {
     RegExp regExp = new RegExp(r'.+(\/|%2F)(.+)\?.+');
     //This Regex won't work if you remove ?alt...token
     var matches = regExp.allMatches(url);
@@ -303,7 +310,7 @@ class _UserProfileState extends State<UserProfile> {
     var match = matches.elementAt(0);
     print("${Uri.decodeFull(match.group(2)!)}");
     return Uri.decodeFull(match.group(2)!);
-  }
+  }*/
 
   Future<void> downloadFile() async {
     final httpsReference = FirebaseStorage.instance.refFromURL(

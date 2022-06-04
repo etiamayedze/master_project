@@ -30,8 +30,8 @@ class _ChatDiscussionState extends State<ChatDiscussion> {
               color: CupertinoColors.black,
               fontSize: 20,
             )),
-        backgroundColor: Colors.white,
-        leading: GestureDetector(
+        backgroundColor: Colors.grey,
+        /*leading: GestureDetector(
           child: Icon(
             Icons.arrow_back_ios,
             color: Colors.black,
@@ -42,7 +42,7 @@ class _ChatDiscussionState extends State<ChatDiscussion> {
               MaterialPageRoute(builder: (context) => ChatList()),
             );
           },
-        ),
+        ),*/
       ),
       body: Padding(
         padding: const EdgeInsets.all(8.0),

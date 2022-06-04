@@ -23,7 +23,7 @@ class _ChatListState extends State<ChatList> {
               color: CupertinoColors.black,
               fontSize: 25,
             )),
-        backgroundColor: Colors.white,
+        backgroundColor: Colors.grey,
         actions: [
           IconButton(
             onPressed: () {},
