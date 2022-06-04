@@ -4,6 +4,8 @@ import 'package:master_project/providers/firestore_methods.dart';
 import 'package:master_project/providers/get_user.dart';
 import 'package:master_project/screens/profile/components/profile_menu.dart';
 import 'package:master_project/screens/widgets/likes.dart';
+import 'package:master_project/screens/comment/comments.dart';
+
 
 class PostCard extends StatefulWidget {
   final snap;
@@ -152,7 +154,10 @@ class _PostCardState extends State<PostCard> {
                 ),
               ),
               IconButton(
-                onPressed: () => Navigator.of(context).push,
+                onPressed: () => Navigator.of(context)
+                    .push(MaterialPageRoute(builder: (context) => Comment(),
+                ),
+                ),
                 icon: const Icon(
                   Icons.comment_outlined,
                 ),
