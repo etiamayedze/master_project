@@ -5,15 +5,15 @@ import 'package:master_project/providers/get_user.dart';
 import 'package:master_project/screens/profile/components/profile_menu.dart';
 import 'package:master_project/screens/widgets/likes.dart';
 
-class TestCard extends StatefulWidget {
+class PostCard extends StatefulWidget {
   final snap;
-  const TestCard({Key? key, required this.snap}) : super(key: key);
+  const PostCard({Key? key, required this.snap}) : super(key: key);
 
   @override
-  State<TestCard> createState() => _TestCardState();
+  State<PostCard> createState() => _PostCardState();
 }
 
-class _TestCardState extends State<TestCard> {
+class _PostCardState extends State<PostCard> {
   bool isLikeAnimating = false;
 
   @override
@@ -152,7 +152,7 @@ class _TestCardState extends State<TestCard> {
                 ),
               ),
               IconButton(
-                onPressed: () {},
+                onPressed: () => Navigator.of(context).push,
                 icon: const Icon(
                   Icons.comment_outlined,
                 ),

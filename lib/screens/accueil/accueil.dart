@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import '../widgets/test_card.dart';
+import '../widgets/post_card.dart';
 
 
 class Accueil extends StatefulWidget {
@@ -13,7 +13,7 @@ class Accueil extends StatefulWidget {
 class _AccueilState extends State<Accueil> {
   @override
   Widget build(BuildContext context) {
-    final width = MediaQuery.of(context).size.width;
+    //final width = MediaQuery.of(context).size.width;
     return Scaffold(
       body: StreamBuilder(
         stream: FirebaseFirestore.instance.collection('posts').snapshots(),
@@ -25,7 +25,7 @@ class _AccueilState extends State<Accueil> {
           }
           return ListView.builder(
             itemCount: snapshot.data!.docs.length,
-            itemBuilder: (context, index) => TestCard(
+            itemBuilder: (context, index) => PostCard(
               snap: snapshot.data!.docs[index].data(),
             ),
           );

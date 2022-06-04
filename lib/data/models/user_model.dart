@@ -5,7 +5,7 @@ class UserModel{
   String? email;
   String? nom;
   String? prenom;
-  String imgUrl;
+  String? imgUrl;
 
   UserModel({this.uid,this.email,this.nom,this.prenom, this.imgUrl = ""});
 

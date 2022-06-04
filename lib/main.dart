@@ -2,11 +2,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:master_project/providers/user_Provider.dart';
 import 'package:master_project/screens/global/loading.dart';
 import 'package:master_project/screens/global/navigation.dart';
 import 'package:master_project/screens/profile/profile.dart';
-import 'package:provider/provider.dart';
 
 
 

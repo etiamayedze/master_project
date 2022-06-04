@@ -10,7 +10,6 @@ import 'package:master_project/utils/utils.dart';
 import 'package:provider/provider.dart';
 
 import '../../data/models/user_model.dart';
-import '../../providers/user_Provider.dart';
 import '../profile/components/profile_menu.dart';
 class AddPost extends StatefulWidget {
   const AddPost({Key? key}) : super(key: key);
@@ -71,7 +70,7 @@ class _AddPostState extends State<AddPost> {
 
 
 
-  void postImage(String? uid, String? username, String profImage)async{
+  void postImage(String? uid, String? username, String? profImage)async{
     setState((){
       _isLoading = true;
     });
@@ -81,7 +80,7 @@ class _AddPostState extends State<AddPost> {
           _file!,
           uid!,
         username!,
-        profImage,
+        profImage!,
       );
       if(res == "success"){
         setState((){
