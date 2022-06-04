@@ -1,6 +1,9 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:intl/intl.dart';
+import 'package:lottie/lottie.dart';
 
 class Booking extends StatefulWidget {
   const Booking({Key? key}) : super(key: key);
@@ -10,6 +13,14 @@ class Booking extends StatefulWidget {
 }
 
 class _BookingState extends State<Booking> {
+  final _auth = FirebaseAuth.instance;
+
+  TextEditingController dateinput = TextEditingController();
+  TextEditingController timeinput = TextEditingController();
+
+  final _formKey = GlobalKey<FormState>();
+  //final format = DateFormat('yyyy-MM-dd HH:mm');
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -27,6 +38,152 @@ class _BookingState extends State<Booking> {
                   fontSize: 25,
                 )),
           ],
+        ),
+      ),
+      body: Center(
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.all(36.0),
+            child: Form(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  SizedBox(
+                    height: 100,
+                    child: Lottie.asset(
+                      "assets/calendar.json",
+                      fit: BoxFit.contain,
+                    ),
+                  ),
+                  Container(
+                    padding: EdgeInsets.all(10),
+                    height: 100,
+                    child: Center(
+                      child: TextField(
+                        controller:
+                            dateinput, //editing controller of this TextField
+                        decoration: InputDecoration(
+                          icon: Icon(Icons.calendar_today), //icon of text field
+                          labelText: "Choisir une date", //label text of field
+                          contentPadding: EdgeInsets.fromLTRB(20, 15, 20, 15),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                        ),
+                        readOnly:
+                            true, //set it true, so that user will not able to edit text
+                        onTap: () async {
+                          DateTime? pickedDate = await showDatePicker(
+                              context: context,
+                              initialDate: DateTime.now(),
+                              firstDate: DateTime(
+                                  2000), //DateTime.now() - not to allow to choose before today.
+                              lastDate: DateTime(2101));
+
+                          if (pickedDate != null) {
+                            print(
+                                pickedDate); //pickedDate output format => 2021-03-10 00:00:00.000
+                            String formattedDate =
+                                DateFormat('yyyy-MM-dd').format(pickedDate);
+                            print(
+                                formattedDate); //formatted date output using intl package =>  2021-03-16
+                            //you can implement different kind of Date Format here according to your requirement
+
+                            setState(() {
+                              dateinput.text =
+                                  formattedDate; //set output date to TextField value.
+                            });
+                          } else {
+                            print("Date is not selected");
+                          }
+                        },
+                      ),
+                    ),
+                  ),
+                  Container(
+                    padding: EdgeInsets.all(10),
+                    height: 100,
+                    child: Center(
+                      child: TextField(
+                        controller:
+                            timeinput, //editing controller of this TextField
+                        decoration: InputDecoration(
+                          icon: Icon(Icons.timer), //icon of text field
+                          labelText: "Choisir une heure", //label text of field
+                          contentPadding: EdgeInsets.fromLTRB(20, 15, 20, 15),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                        ),
+                        readOnly:
+                            true, //set it true, so that user will not able to edit text
+                        onTap: () async {
+                          TimeOfDay? pickedTime = await showTimePicker(
+                            initialTime: TimeOfDay.now(),
+                            context: context,
+                          );
+
+                          if (pickedTime != null) {
+                            print(pickedTime.format(context)); //output 10:51 PM
+                            DateTime parsedTime = DateFormat.jm()
+                                .parse(pickedTime.format(context).toString());
+                            //converting to DateTime so that we can further format on different pattern.
+                            print(parsedTime); //output 1970-01-01 22:53:00.000
+                            String formattedTime =
+                                DateFormat('HH:mm:ss').format(parsedTime);
+                            print(formattedTime); //output 14:59:00
+                            //DateFormat() is from intl package, you can format the time on any pattern you need.
+
+                            setState(() {
+                              timeinput.text =
+                                  formattedTime; //set the value of text field.
+                            });
+                          } else {
+                            print("Time is not selected");
+                          }
+                        },
+                      ),
+                    ),
+                  ),
+                  Container(
+                        padding: const EdgeInsets.all(10.0),
+                        height: 100,
+                        child: Center(
+                          child: TextFormField(
+                            decoration: InputDecoration(
+                                icon: Icon(Icons.comment),
+                                labelText: "Commentaire",
+                                contentPadding: EdgeInsets.fromLTRB(20, 15, 20, 15),
+                                border: OutlineInputBorder(borderRadius: BorderRadius.circular(10))),
+                          ),
+                        ),
+                      ),
+                  SizedBox(
+                    height: 50,
+                  ),
+              Container(
+                child: Material(
+                  elevation: 5,
+                  borderRadius: BorderRadius.circular(30),
+                  color: Colors.blue.shade700,
+                  child: MaterialButton(
+                      padding: EdgeInsets.fromLTRB(20, 15, 20, 15),
+                      minWidth: MediaQuery.of(context).size.width,
+                      onPressed: () {
+                      },
+                      child: Text(
+                        "Booker",
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                            fontSize: 20, color: Colors.white, fontWeight: FontWeight.bold),
+                      )),
+                ),
+              ),
+                ],
+              ),
+            ),
+          ),
         ),
       ),
     );
