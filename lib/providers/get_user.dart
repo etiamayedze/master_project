@@ -5,11 +5,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import '../data/models/user_model.dart';
 
 class UserDetail{
-  // @override
-  // void initState(){
-  //   super.initState();
-  //   _getActualUser();
-  // }
+
   User? user = FirebaseAuth.instance.currentUser ;
   FirebaseStorage storage = FirebaseStorage.instance;
   UserModel loginUser = UserModel();
