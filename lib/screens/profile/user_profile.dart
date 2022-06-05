@@ -8,6 +8,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:master_project/data/models/user_model.dart';
 import 'package:master_project/screens/booking/booking.dart';
+import 'package:master_project/screens/booking/mesReservations.dart';
 import 'package:master_project/screens/profile/editUserProfile.dart';
 import 'package:path_provider/path_provider.dart';
 import '../../widgets/customedButton.dart';
@@ -80,15 +81,15 @@ class _UserProfileState extends State<UserProfile> {
                 ),
                 itemBuilder: (context) => [
                       PopupMenuItem(
+                        child: Text("Réservations"),
+                        onTap: (){MesReservations();},
+                        value: 2,
+                      ),
+                      PopupMenuItem(
                         child: Text("Deconnexion"),
                         onTap: () => Deconnexion(context),
                         value: 1,
                       ),
-
-                      /*PopupMenuItem(
-                    child: Text("Second"),
-                    value: 2,
-                  )*/
                     ])
           ],
         ),

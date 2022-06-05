@@ -227,7 +227,7 @@ class _BookingState extends State<Booking> {
         setState((){
           _isLoading = false;
         });
-        showSnacBar(context,'Posted!');
+        showSnacBar(context,'Booked!');
       }else{
         setState((){
           _isLoading = false;
