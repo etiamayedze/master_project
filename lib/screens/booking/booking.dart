@@ -1,12 +1,19 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:lottie/lottie.dart';
+import 'package:master_project/services/auth_service.dart';
+import 'package:master_project/services/dbservice.dart';
+
+import '../../utils/utils.dart';
 
 class Booking extends StatefulWidget {
-  const Booking({Key? key}) : super(key: key);
+  final String uid_dj;
+  const Booking({Key? key, required this.uid_dj}) : super(key: key);
 
   @override
   State<Booking> createState() => _BookingState();
@@ -15,8 +22,13 @@ class Booking extends StatefulWidget {
 class _BookingState extends State<Booking> {
   final _auth = FirebaseAuth.instance;
 
+  bool _isLoading = false;
   TextEditingController dateinput = TextEditingController();
   TextEditingController timeinput = TextEditingController();
+  TextEditingController comment = TextEditingController();
+
+
+
 
   final _formKey = GlobalKey<FormState>();
   //final format = DateFormat('yyyy-MM-dd HH:mm');
@@ -151,6 +163,7 @@ class _BookingState extends State<Booking> {
                         height: 100,
                         child: Center(
                           child: TextFormField(
+                            controller: comment,
                             decoration: InputDecoration(
                                 icon: Icon(Icons.comment),
                                 labelText: "Commentaire",
@@ -170,7 +183,15 @@ class _BookingState extends State<Booking> {
                   child: MaterialButton(
                       padding: EdgeInsets.fromLTRB(20, 15, 20, 15),
                       minWidth: MediaQuery.of(context).size.width,
-                      onPressed: () {
+                      onPressed: ()  {
+                        print(widget.uid_dj);
+                        print(AuthServices().user?.uid);
+                        addToBook(AuthServices().user!.uid, widget.uid_dj, comment.text, true, dateinput.text, timeinput.text );
+                        dateinput.clear();
+                        timeinput.clear();
+                        comment.clear();
+                        Fluttertoast.showToast(msg: "Vous avez bien booké ce DJ");
+                        Navigator.pop(context);
                       },
                       child: Text(
                         "Booker",
@@ -187,5 +208,35 @@ class _BookingState extends State<Booking> {
         ),
       ),
     );
+  }
+
+  void addToBook(String? uid_user, String? uid_dj, String? commentaire, bool? accept, String? date_prestation, String? heure_presation)async{
+    setState((){
+      _isLoading = true;
+    });
+    try{
+      String res = await DbServices().book(
+        AuthServices().user!.uid,
+        widget.uid_dj,
+        comment.text,
+        accept = true,
+        dateinput.text,
+        timeinput.text,
+      );
+      if(res == "success"){
+        setState((){
+          _isLoading = false;
+        });
+        showSnacBar(context,'Posted!');
+      }else{
+        setState((){
+          _isLoading = false;
+        });
+        showSnacBar(context, res);
+      }
+    }catch(err){
+      showSnacBar(context,err.toString());
+    }
+
   }
 }

@@ -58,7 +58,6 @@ class _UserProfileState extends State<UserProfile> {
   }
   //
 
-
   @override
   Widget build(BuildContext context) {
     if (userData.isEmpty) {
@@ -179,9 +178,16 @@ class _UserProfileState extends State<UserProfile> {
                             hauteur: 35,
                             label: "Booker",
                             function: () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(builder: (context) => Booking()),
+                              var snapshot = FirebaseFirestore.instance
+                                  .collection('users')
+                                  .where('uid', isEqualTo: userData["uid"])
+                                  .snapshots();
+                              Navigator.of(context).push(
+                                MaterialPageRoute(
+                                  builder: (context) => Booking(
+                                    uid_dj: (userData['uid'] as dynamic),
+                                  ),
+                                ),
                               );
                             }),
                         SizedBox(
@@ -221,7 +227,8 @@ class _UserProfileState extends State<UserProfile> {
                             function: () {
                               Navigator.push(
                                 context,
-                                MaterialPageRoute(builder: (context) => EditUserProfile()),
+                                MaterialPageRoute(
+                                    builder: (context) => EditUserProfile()),
                               );
                             }),
                       ],
@@ -302,7 +309,7 @@ class _UserProfileState extends State<UserProfile> {
         .pushReplacement(MaterialPageRoute(builder: (context) => Login()));
   }
 
- /* String getFileName(String url) {
+  /* String getFileName(String url) {
     RegExp regExp = new RegExp(r'.+(\/|%2F)(.+)\?.+');
     //This Regex won't work if you remove ?alt...token
     var matches = regExp.allMatches(url);
@@ -313,8 +320,8 @@ class _UserProfileState extends State<UserProfile> {
   }*/
 
   Future<void> downloadFile() async {
-    final httpsReference = FirebaseStorage.instance.refFromURL(
-        "${userData['facture']}");
+    final httpsReference =
+        FirebaseStorage.instance.refFromURL("${userData['facture']}");
     final appDocDir = await getApplicationDocumentsDirectory();
     File downloadToFile = File('/storage/emulated/0/Download/devis.pdf');
     print(downloadToFile);
@@ -322,33 +329,33 @@ class _UserProfileState extends State<UserProfile> {
     downloadTask.snapshotEvents.listen((taskSnapshot) {
       switch (taskSnapshot.state) {
         case TaskState.running:
-        // TODO: Handle this case.
-        print("running");
+          // TODO: Handle this case.
+          print("running");
           break;
         case TaskState.paused:
-        // TODO: Handle this case.
+          // TODO: Handle this case.
           print("paused");
           Fluttertoast.showToast(msg: "Téléchargement en pause");
           break;
         case TaskState.success:
-        // TODO: Handle this case.
+          // TODO: Handle this case.
           print("sucess");
-          Fluttertoast.showToast(msg: "Téléchargement réussi. Le fichier se trouve dans /storage/emulated/0/Download/ ");
+          Fluttertoast.showToast(
+              msg:
+                  "Téléchargement réussi. Le fichier se trouve dans /storage/emulated/0/Download/ ");
           break;
         case TaskState.canceled:
-        // TODO: Handle this case.
+          // TODO: Handle this case.
           print("canceled");
           Fluttertoast.showToast(msg: "Téléchargement annulé");
           break;
         case TaskState.error:
-        // TODO: Handle this case.
+          // TODO: Handle this case.
           print("error");
-          Fluttertoast.showToast(msg: "Une erreur est survenue lors du téléchargement");
+          Fluttertoast.showToast(
+              msg: "Une erreur est survenue lors du téléchargement");
           break;
       }
     });
-
   }
-
-
 }
