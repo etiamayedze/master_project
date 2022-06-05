@@ -19,7 +19,7 @@ class UserModel {
       this.nom,
       this.prenom,
       this.username,
-      this.imgUrl = "",
+      this.imgUrl ="",
       this.facture,
       this.demolink,
       this.ville,
@@ -59,17 +59,4 @@ class UserModel {
       'bio': bio,
     };
   }
-
-    static UserModel fromSnap(DocumentSnapshot snap) {
-      var snapshot = snap.data() as Map<String, dynamic>;
-
-      return UserModel(
-        uid: snapshot["uid"],
-        email: snapshot["email"],
-        nom: snapshot["nom"],
-        prenom: snapshot["prenom"],
-        imgUrl: snapshot["imgUrl"],
-
-      );
-    }
 }
