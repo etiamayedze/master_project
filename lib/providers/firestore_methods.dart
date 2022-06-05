@@ -61,8 +61,8 @@ class FirestoreMethods {
   }
 
   //post comment
-  Future<String> postComment(String postId, String text, String? uid, String? name, String profilePic) async {
-    String res = "somme error occurred";
+  Future<void> postComment(String postId, String text, String? uid, String? name, String profilePic) async {
+    //String res = "somme error occurred";
     try{
       if(text.isNotEmpty) {
         String commentId = const Uuid().v1();
@@ -79,27 +79,30 @@ class FirestoreMethods {
           'commentId':commentId,
           'datePubliched': DateTime.now(),
         });
-        res = 'succes s';
+        //res = 'succes s';
       }else{
-        res = 'Please enter text';
+        //res = 'Please enter text';
+        print('Le text est vide');
       }
     }catch(err){
-      res = err.toString();
+      //res = err.toString();
+      print(err.toString());
     }
-    return res;
+    //return res;
   }
 
   // deleting post
 
-Future<String> deletePost(String postId)async {
-    String res = "some error occurred";
+Future<void> deletePost(String postId)async {
+    //String res = "some error occurred";
     try{
       await _firestore.collection('posts').doc(postId).delete();
-      res ='success';
+      //res ='success';
     }catch(err){
-     res = err.toString();
+     //res = err.toString();
+      print(err.toString());
     }
-    return res;
+   // return res;
 }
 
 }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:master_project/providers/get_user.dart';
 
 class CardComment extends StatefulWidget {
   final snap;
@@ -37,7 +38,7 @@ class _CardCommentState extends State<CardComment> {
                         TextSpan(
                           text: widget.snap['name'],
                           style: const TextStyle(
-                              fontWeight: FontWeight.bold
+                              fontWeight: FontWeight.bold,
                           ),
                         ),
                         TextSpan(
@@ -45,7 +46,6 @@ class _CardCommentState extends State<CardComment> {
                         ),
                       ],
                     ),
-
                   ),
                   Padding(padding: const EdgeInsets.only(top: 4),
                     child: Text(
