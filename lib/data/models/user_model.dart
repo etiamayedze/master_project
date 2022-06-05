@@ -6,7 +6,7 @@ class UserModel {
   String? nom;
   String? prenom;
   String? username;
-  String? imgUrl;
+  String imgUrl;
   String? facture;
   String? demolink;
   String? ville;
