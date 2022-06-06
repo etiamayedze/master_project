@@ -80,7 +80,7 @@ class _MesReservationsState extends State<MesReservations> {
               Map item = data.docs[index].data() as Map;
               return SizedBox(
                 width: 150,
-                height: 200,
+                height: 175,
                 child: Card(
                   margin: EdgeInsets.all(10),
                   color: Colors.white,
@@ -114,7 +114,7 @@ class _MesReservationsState extends State<MesReservations> {
                                         'En attente de validation',
                                         style: GoogleFonts.mochiyPopOne(
                                           color: CupertinoColors.activeBlue,
-                                          fontSize: 10,
+                                          fontSize: 12,
                                         ),
                                       ),
                                     ],
@@ -127,10 +127,30 @@ class _MesReservationsState extends State<MesReservations> {
                                     mainAxisSize: MainAxisSize.min,
                                     children: [
                                       TextButton(
-                                          onPressed: () {},
+                                          onPressed: () {
+                                            print('Accepté');
+                                            print(item);
+                                            final docBooking = FirebaseFirestore.instance.collection('booking').doc(item['book_id']);
+                                            docBooking.update({
+                                              'accept': 2
+                                            });
+                                          },
+                                          style: TextButton.styleFrom(
+                                            primary: Colors.green,
+                                          ),
                                           child: Text('Accepter')),
                                       TextButton(
-                                          onPressed: () {},
+                                          onPressed: () {
+                                            print('Refusé');
+                                            print(item);
+                                            final docBooking = FirebaseFirestore.instance.collection('booking').doc(item['book_id']);
+                                            docBooking.update({
+                                              'accept': 3
+                                            });
+                                          },
+                                          style: TextButton.styleFrom(
+                                            primary: Colors.redAccent,
+                                          ),
                                           child: Text('Refuser')),
                                     ],
                                   )
@@ -143,7 +163,7 @@ class _MesReservationsState extends State<MesReservations> {
                                     'Validé',
                                     style: GoogleFonts.mochiyPopOne(
                                       color: CupertinoColors.activeGreen,
-                                      fontSize: 10,
+                                      fontSize: 12,
                                     ),
                                   ),
                                 )
@@ -152,7 +172,7 @@ class _MesReservationsState extends State<MesReservations> {
                                     'Refusé',
                                     style: GoogleFonts.mochiyPopOne(
                                       color: CupertinoColors.destructiveRed,
-                                      fontSize: 10,
+                                      fontSize: 12,
                                     ),
                                   ),
                                 ),
