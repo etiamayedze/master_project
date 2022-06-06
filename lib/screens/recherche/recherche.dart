@@ -33,7 +33,7 @@ class _RechercheState extends State<Recherche> {
           ),
           controller: rechercheController,
           decoration: InputDecoration(
-            labelText: 'Recherche',
+            labelText: 'Rechercher un DJ dans ta ville',
           ),
           onFieldSubmitted: (String _) {
             setState(() {
@@ -47,8 +47,8 @@ class _RechercheState extends State<Recherche> {
           ? StreamBuilder(
               stream: FirebaseFirestore.instance
                   .collection('users')
-                  .where('nom',
-                      isGreaterThanOrEqualTo: rechercheController.text)
+                  .where('ville',
+                      isEqualTo: rechercheController.text)
                   .snapshots(),
               builder: (context, snapshot) {
                 if (!snapshot.hasData) {
