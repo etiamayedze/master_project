@@ -9,6 +9,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:master_project/data/models/user_model.dart';
 import 'package:master_project/screens/booking/booking.dart';
 import 'package:master_project/screens/profile/editUserProfile.dart';
+import 'package:master_project/services/auth_service.dart';
 import 'package:path_provider/path_provider.dart';
 import '../../widgets/customedButton.dart';
 import '../signup/login.dart';
@@ -27,7 +28,6 @@ class _UserProfileState extends State<UserProfile> {
   //
   var userData = {};
   int postLenght = 0;
-  //
 
   //
   @override
@@ -208,6 +208,7 @@ class _UserProfileState extends State<UserProfile> {
                             function: () {}),
                       ],
                     )
+
                   : Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
@@ -221,7 +222,7 @@ class _UserProfileState extends State<UserProfile> {
                             function: () {
                               Navigator.push(
                                 context,
-                                MaterialPageRoute(builder: (context) => EditUserProfile()),
+                                MaterialPageRoute(builder: (context) => EditUserProfile(userDetail:userData)),
                               );
                             }),
                       ],

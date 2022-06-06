@@ -1,7 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:master_project/providers/firestore_methods.dart';
 import 'package:master_project/screens/widgets/comment_card.dart';
+import '../../data/models/user_model.dart';
 import '../../providers/get_user.dart';
 
 class Comment extends StatefulWidget {
@@ -22,8 +25,28 @@ class _CommentState extends State<Comment> {
   }
 
   @override
+  void initState(){
+    super.initState();
+    _getActualUser();
+  }
+
+
+  User? user = FirebaseAuth.instance.currentUser ;
+  FirebaseStorage storage = FirebaseStorage.instance;
+  UserModel loginUser = UserModel();
+  _getActualUser() async {
+    await FirebaseFirestore.instance
+        .collection("users")
+        .doc(user!.uid)
+        .get()
+        .then((value){
+      this.loginUser =UserModel.fromMap(value.data());
+
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
-    final getUser = UserDetail();
     return Scaffold(
       appBar: AppBar(
         title: const Text('Commentaire'),
@@ -61,7 +84,7 @@ class _CommentState extends State<Comment> {
             children: [
               CircleAvatar(
                 backgroundImage: NetworkImage(
-                  getUser.loginUser.imgUrl,
+                  loginUser.imgUrl,
                 ),
                 radius: 18,
               ),
@@ -71,7 +94,7 @@ class _CommentState extends State<Comment> {
                   child: TextField(
                     controller: _commentController,
                     decoration: InputDecoration(
-                      hintText: 'Commentaire de ${getUser.loginUser.username} ',
+                      hintText: 'Commentaire de ${loginUser.nom} ',
                       border: InputBorder.none,
                     ),
                   ),
@@ -82,9 +105,9 @@ class _CommentState extends State<Comment> {
                   await FirestoreMethods().postComment(
                       widget.snap['postId'],
                       _commentController.text,
-                      getUser.loginUser.uid,
-                      getUser.loginUser.nom,
-                      getUser.loginUser.imgUrl);
+                      loginUser.uid,
+                      loginUser.nom,
+                      loginUser.imgUrl);
                   setState((){
                     _commentController.text = "";
                   });

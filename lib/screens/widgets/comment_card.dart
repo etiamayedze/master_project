@@ -4,7 +4,7 @@ import 'package:master_project/providers/get_user.dart';
 
 class CardComment extends StatefulWidget {
   final snap;
-  const CardComment({Key? key, required this.snap,}) : super(key: key);
+  const CardComment({Key? key, required this.snap}) : super(key: key);
 
   @override
   State<CardComment> createState() => _CardCommentState();

@@ -10,15 +10,16 @@ class FirestoreMethods {
 
   //upload post
   Future<String> uploadPost(
-      String description,
-      Uint8List file,
-      String uid,
-      String username,
-      String profImage,
-      ) async {
+    String description,
+    Uint8List file,
+    String uid,
+    String username,
+    String profImage,
+  ) async {
     String res = "some error";
-    try{
-      String postImage = await StorageMethods().uploadImageToStorage('posts', file, true) ;
+    try {
+      String postImage =
+          await StorageMethods().uploadImageToStorage('posts', file, true);
       String postId = const Uuid().v1();
 
       PostModel post = PostModel(
@@ -32,10 +33,10 @@ class FirestoreMethods {
         profImage: profImage,
       );
       _firestore.collection('posts').doc(postId).set(
-        post.toMap(),
-      );
+            post.toMap(),
+          );
       res = "success";
-    }catch(err){
+    } catch (err) {
       res = err.toString();
     }
     return res;
@@ -43,48 +44,49 @@ class FirestoreMethods {
 
   Future<String> likePost(String postId, String? uid, List likes) async {
     String res = "some error occurred";
-    try{
-      if(likes.contains(uid)){
+    try {
+      if (likes.contains(uid)) {
         await _firestore.collection('posts').doc(postId).update({
           'likes': FieldValue.arrayRemove([uid]),
         });
-      }else{
+      } else {
         await _firestore.collection('posts').doc(postId).update({
           'likes': FieldValue.arrayUnion([uid]),
         });
       }
       res = 'success';
-    }catch(err){
+    } catch (err) {
       res = err.toString();
     }
     return res;
   }
 
   //post comment
-  Future<void> postComment(String postId, String text, String? uid, String? name, String profilePic) async {
+  Future<void> postComment(String postId, String text, String? uid,
+      String? name, String profilePic) async {
     //String res = "somme error occurred";
-    try{
-      if(text.isNotEmpty) {
+    try {
+      if (text.isNotEmpty) {
         String commentId = const Uuid().v1();
-       await _firestore
-           .collection('posts')
-           .doc(postId)
-           .collection('comments')
-           .doc(commentId)
-           .set({
-          'profilePic':profilePic,
-          'name':name,
-          'uid':uid,
+        await _firestore
+            .collection('posts')
+            .doc(postId)
+            .collection('comments')
+            .doc(commentId)
+            .set({
+          'profilePic': profilePic,
+          'name': name,
+          'uid': uid,
           'text': text,
-          'commentId':commentId,
+          'commentId': commentId,
           'datePubliched': DateTime.now(),
         });
         //res = 'succes s';
-      }else{
+      } else {
         //res = 'Please enter text';
         print('Le text est vide');
       }
-    }catch(err){
+    } catch (err) {
       //res = err.toString();
       print(err.toString());
     }
@@ -93,16 +95,32 @@ class FirestoreMethods {
 
   // deleting post
 
-Future<void> deletePost(String postId)async {
+  Future<void> deletePost(String postId) async {
     //String res = "some error occurred";
-    try{
+    try {
       await _firestore.collection('posts').doc(postId).delete();
       //res ='success';
-    }catch(err){
-     //res = err.toString();
+    } catch (err) {
+      //res = err.toString();
       print(err.toString());
     }
-   // return res;
-}
+    // return res;
+  }
 
+  Future updateUserData(String uid,String nom, String prenom, String username,
+      String bio, String pays, String ville) async {
+    try{
+      await _firestore.collection('users').doc(uid).update({
+        'nom':nom,
+        'prenom':prenom,
+        'username':username,
+        'bio':bio,
+        'pays':pays,
+        'ville':ville,
+      });
+
+    }catch(err){
+      print(err);
+    }
+  }
 }

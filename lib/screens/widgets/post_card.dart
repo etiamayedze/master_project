@@ -1,4 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:master_project/providers/firestore_methods.dart';
@@ -7,6 +9,8 @@ import 'package:master_project/screens/profile/components/profile_menu.dart';
 import 'package:master_project/screens/widgets/likes.dart';
 import 'package:master_project/screens/comment/comments.dart';
 import 'package:master_project/utils/utils.dart';
+
+import '../../data/models/user_model.dart';
 
 class PostCard extends StatefulWidget {
   final snap;
@@ -24,6 +28,7 @@ class _PostCardState extends State<PostCard> {
   void initState() {
     super.initState();
     getComments();
+    _getActualUser();
   }
 
   void getComments() async {
@@ -39,13 +44,27 @@ class _PostCardState extends State<PostCard> {
    }
    setState((){
 
-
    });
+  }
+
+
+
+  User? user = FirebaseAuth.instance.currentUser ;
+  FirebaseStorage storage = FirebaseStorage.instance;
+  UserModel loginUser = UserModel();
+  _getActualUser() async {
+    await FirebaseFirestore.instance
+        .collection("users")
+        .doc(user!.uid)
+        .get()
+        .then((value){
+      this.loginUser =UserModel.fromMap(value.data());
+
+    });
   }
 
   @override
   Widget build(BuildContext context) {
-    final getUser = UserDetail();
 
     return Container(
       //color: mobileSearchColor,
@@ -122,7 +141,7 @@ class _PostCardState extends State<PostCard> {
           GestureDetector(
             onDoubleTap: () async {
               await FirestoreMethods().likePost(widget.snap['postId'],
-                  getUser.loginUser.uid, widget.snap['likes']);
+                  loginUser.uid, widget.snap['likes']);
               setState(() {
                 isLikeAnimating = true;
               });
@@ -164,14 +183,14 @@ class _PostCardState extends State<PostCard> {
             children: [
               LikeAnimation(
                 isAnimating:
-                    widget.snap['likes'].contains(getUser.loginUser.uid),
+                    widget.snap['likes'].contains(loginUser.uid),
                 smallLike: true,
                 child: IconButton(
                   onPressed: () async {
                     await FirestoreMethods().likePost(widget.snap['postId'],
-                        getUser.loginUser.uid, widget.snap['likes']);
+                        loginUser.uid, widget.snap['likes']);
                   },
-                  icon: widget.snap['likes'].contains(getUser.loginUser.uid)
+                  icon: widget.snap['likes'].contains(loginUser.uid)
                       ? const Icon(
                           Icons.favorite,
                           color: Colors.red,
