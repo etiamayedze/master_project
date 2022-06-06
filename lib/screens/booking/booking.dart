@@ -186,7 +186,7 @@ class _BookingState extends State<Booking> {
                       onPressed: ()  {
                         print(widget.uid_dj);
                         print(AuthServices().user?.uid);
-                        addToBook(AuthServices().user!.uid, widget.uid_dj, comment.text, true, dateinput.text, timeinput.text );
+                        addToBook(AuthServices().user!.uid, widget.uid_dj, comment.text, 1, dateinput.text, timeinput.text );
                         dateinput.clear();
                         timeinput.clear();
                         comment.clear();
@@ -210,7 +210,7 @@ class _BookingState extends State<Booking> {
     );
   }
 
-  void addToBook(String? uid_user, String? uid_dj, String? commentaire, bool? accept, String? date_prestation, String? heure_presation)async{
+  void addToBook(String? uid_user, String? uid_dj, String? commentaire, int? accept, String? date_prestation, String? heure_prestation)async{
     setState((){
       _isLoading = true;
     });
@@ -219,7 +219,7 @@ class _BookingState extends State<Booking> {
         AuthServices().user!.uid,
         widget.uid_dj,
         comment.text,
-        accept = true,
+        accept = 1,
         dateinput.text,
         timeinput.text,
       );

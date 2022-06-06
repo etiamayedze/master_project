@@ -3,9 +3,9 @@ class BookingModel {
   final String uid_user;
   final String uid_dj;
   final String commentaire;
-  final bool accept;
+  final int accept;
   final String date_prestation;
-  final String heure_presation;
+  final String heure_prestation;
 
   BookingModel({
     required this.book_id,
@@ -14,7 +14,7 @@ class BookingModel {
     required this.commentaire,
     required this.accept,
     required this.date_prestation,
-    required this.heure_presation,
+    required this.heure_prestation,
   });
 
   //retour serveur
@@ -26,7 +26,7 @@ class BookingModel {
       commentaire: map['commentaire'],
       accept: map['accept'],
       date_prestation: map['date_prestation'],
-      heure_presation: map['heure_prestation'],
+      heure_prestation: map['heure_prestation'],
     );
   }
 
@@ -39,7 +39,7 @@ class BookingModel {
       'commentaire': commentaire,
       'accept': accept,
       'date_prestation': date_prestation,
-      'heure_presation': heure_presation
+      'heure_prestation': heure_prestation
     };
   }
 }

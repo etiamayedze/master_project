@@ -74,23 +74,40 @@ class _UserProfileState extends State<UserProfile> {
               )),
           backgroundColor: Colors.grey,
           actions: [
-            PopupMenuButton(
-                icon: Icon(
-                  Icons.more_horiz_outlined,
-                  color: Colors.black,
+            FirebaseAuth.instance.currentUser!.uid == widget.uid?
+            PopupMenuButton<int>(
+              icon: Icon(
+                Icons.more_horiz_outlined,
+                color: Colors.black,
+              ),
+              itemBuilder: (context) => [
+                PopupMenuItem(
+                  child: Text("Réservations"),
+                  value: 1,
                 ),
-                itemBuilder: (context) => [
-                      PopupMenuItem(
-                        child: Text("Réservations"),
-                        onTap: (){MesReservations();},
-                        value: 2,
+                PopupMenuItem(
+                  child: Text("Deconnexion"),
+                  value: 2,
+                ),
+              ],
+              onSelected: (choice) {
+                switch (choice) {
+                  case 1:
+                    // code for the edit action
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (context) => MesReservations(),
                       ),
-                      PopupMenuItem(
-                        child: Text("Deconnexion"),
-                        onTap: () => Deconnexion(context),
-                        value: 1,
-                      ),
-                    ])
+                    );
+                    break;
+                  case 2:
+                    // code for the remove action
+                    Deconnexion(context);
+                    break;
+                  // other cases...
+                }
+              },
+            ): Text(""),
           ],
         ),
         body: Center(

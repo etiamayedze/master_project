@@ -3,7 +3,6 @@ import 'package:master_project/data/models/message_model.dart';
 import 'package:master_project/data/models/user_model.dart';
 import 'package:master_project/services/auth_service.dart';
 import 'package:uuid/uuid.dart';
-
 import '../data/models/booking_model.dart';
 import 'auth_service.dart';
 
@@ -26,6 +25,14 @@ class DbServices {
         .snapshots()
         .map((event) =>
             event.docs.map((e) => UserModel.fromMap(e.data())).toList());
+  }
+
+  Stream<List<BookingModel>> get getBookingUser {
+    return bookingCollection
+        .where('uid_dj', isEqualTo: AuthServices().user?.uid)
+        .snapshots()
+        .map((event) =>
+        event.docs.map((e) => BookingModel.fromMap(e.data())).toList());
   }
 
   Stream<List<Message>> getMessage(String receiverID, [bool myMessage = true]) {
@@ -52,9 +59,9 @@ class DbServices {
     String uid_user,
     String uid_dj,
     String commentaire,
-    bool accept,
+    int accept,
     String date_prestation,
-    String heure_presation,
+    String heure_prestation,
   ) async {
     String res = "some error";
     print(res);
@@ -67,9 +74,9 @@ class DbServices {
           uid_user: uid_user,
           uid_dj: uid_dj,
           commentaire: commentaire,
-          accept: false,
+          accept: 1,
           date_prestation: date_prestation,
-          heure_presation: heure_presation);
+          heure_prestation: heure_prestation);
       FirebaseFirestore.instance.collection('booking').doc(book_id).set(
             book.toMap(),
           );
@@ -81,4 +88,5 @@ class DbServices {
     }
     return res;
   }
+
 }
