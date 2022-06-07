@@ -13,6 +13,7 @@ import 'package:master_project/screens/profile/editUserProfile.dart';
 import 'package:path_provider/path_provider.dart';
 import '../../widgets/customedButton.dart';
 import '../signup/login.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class UserProfile extends StatefulWidget {
   //
@@ -74,40 +75,41 @@ class _UserProfileState extends State<UserProfile> {
               )),
           backgroundColor: Colors.grey,
           actions: [
-            FirebaseAuth.instance.currentUser!.uid == widget.uid?
-            PopupMenuButton<int>(
-              icon: Icon(
-                Icons.more_horiz_outlined,
-                color: Colors.black,
-              ),
-              itemBuilder: (context) => [
-                PopupMenuItem(
-                  child: Text("Réservations"),
-                  value: 1,
-                ),
-                PopupMenuItem(
-                  child: Text("Deconnexion"),
-                  value: 2,
-                ),
-              ],
-              onSelected: (choice) {
-                switch (choice) {
-                  case 1:
-                    // code for the edit action
-                    Navigator.of(context).push(
-                      MaterialPageRoute(
-                        builder: (context) => MesReservations(),
+            FirebaseAuth.instance.currentUser!.uid == widget.uid
+                ? PopupMenuButton<int>(
+                    icon: Icon(
+                      Icons.more_horiz_outlined,
+                      color: Colors.black,
+                    ),
+                    itemBuilder: (context) => [
+                      PopupMenuItem(
+                        child: Text("Réservations"),
+                        value: 1,
                       ),
-                    );
-                    break;
-                  case 2:
-                    // code for the remove action
-                    Deconnexion(context);
-                    break;
-                  // other cases...
-                }
-              },
-            ): Text(""),
+                      PopupMenuItem(
+                        child: Text("Deconnexion"),
+                        value: 2,
+                      ),
+                    ],
+                    onSelected: (choice) {
+                      switch (choice) {
+                        case 1:
+                          // code for the edit action
+                          Navigator.of(context).push(
+                            MaterialPageRoute(
+                              builder: (context) => MesReservations(),
+                            ),
+                          );
+                          break;
+                        case 2:
+                          // code for the remove action
+                          Deconnexion(context);
+                          break;
+                        // other cases...
+                      }
+                    },
+                  )
+                : Text(""),
           ],
         ),
         body: Center(
@@ -124,13 +126,6 @@ class _UserProfileState extends State<UserProfile> {
               SizedBox(
                 height: 12.0,
               ),
-              Text(
-                "${userData['nom']} ${userData['prenom']}",
-                style: GoogleFonts.mochiyPopOne(
-                  color: CupertinoColors.black,
-                  fontSize: 15,
-                ),
-              ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 mainAxisSize: MainAxisSize.min,
@@ -141,7 +136,7 @@ class _UserProfileState extends State<UserProfile> {
                         "${userData['username']}",
                         style: GoogleFonts.mochiyPopOne(
                           color: CupertinoColors.black,
-                          fontSize: 12,
+                          fontSize: 15,
                         ),
                       ),
                     ],
@@ -163,7 +158,7 @@ class _UserProfileState extends State<UserProfile> {
                 ],
               ),
               SizedBox(
-                height: 15.0,
+                height: 10.0,
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -179,8 +174,35 @@ class _UserProfileState extends State<UserProfile> {
                   ),
                 ],
               ),
-              SizedBox(
-                height: 10.0,
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Column(),
+                  SizedBox(
+                    width: 12.0,
+                  ),
+                  Column(
+                    children: [
+                      TextButton(
+                        onPressed: () {
+                          print('demolink');
+                          _launchInBrowser();
+                        },
+                        style: TextButton.styleFrom(
+                          primary: Colors.blue,
+                        ),
+                        child: Text(
+                          'Demo',
+                          style: GoogleFonts.mochiyPopOne(
+                            color: CupertinoColors.systemBlue,
+                            fontSize: 12,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
               ),
               FirebaseAuth.instance.currentUser!.uid != widget.uid
                   ? Row(
@@ -319,6 +341,16 @@ class _UserProfileState extends State<UserProfile> {
         ),
       ],
     );
+  }
+
+  Future<void> _launchInBrowser() async {
+    final Uri url = Uri.parse("${userData['demolink']}");
+    if (!await launchUrl(
+      url,
+      mode: LaunchMode.externalApplication,
+    )) {
+      throw 'Could not launch $url';
+    }
   }
 
   Future<void> Deconnexion(BuildContext context) async {
