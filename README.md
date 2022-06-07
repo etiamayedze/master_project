@@ -27,7 +27,7 @@ https://dbdiagram.io/d/6213541e485e433543eae66b
 Vous trouverez dans le fichier Tutoriel d_installation.pdf à la racine du projet un tutoriel d'installation pour executer le projet sur une machine Fedora36
 Le tutoriel est également disponible [ICI](https://www.how2shout.com/linux/how-to-install-flutter-on-fedora-linux/)
 
-##DESCRIPTION
+## DESCRIPTION
 
 Notre projet de Master est une plateforme qui permet aux Disc-Jockeys de promouvoir leur métier et de se faire booker pour des événements.  
 
