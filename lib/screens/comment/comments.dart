@@ -49,8 +49,10 @@ class _CommentState extends State<Comment> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+
         title: const Text('Commentaire'),
         centerTitle: false,
+
       ),
       body: StreamBuilder(
         stream: FirebaseFirestore.instance
@@ -116,7 +118,7 @@ class _CommentState extends State<Comment> {
                   padding:
                       const EdgeInsets.symmetric(vertical: 8, horizontal: 8),
                   child: const Text(
-                    'Post',
+                    'Poster',
                     style: TextStyle(
                       color: Colors.black,
                     ),

@@ -73,9 +73,10 @@ class _EditUserProfileState extends State<EditUserProfile> {
           mainAxisSize: MainAxisSize.min,
           children: [
             Text('Modifier profil ',
-                style: GoogleFonts.mochiyPopOne(
+                style: TextStyle(
                   color: CupertinoColors.black,
-                  fontSize: 25,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 30,
                 )),
           ],
         ),
@@ -91,45 +92,6 @@ class _EditUserProfileState extends State<EditUserProfile> {
               Center(
                 child: Stack(
                   children: [
-                    // Container(
-                    //   width: 130,
-                    //   height: 130,
-                    //   decoration: BoxDecoration(
-                    //     border: Border.all(width: 4, color: Colors.white),
-                    //     boxShadow: [
-                    //       BoxShadow(
-                    //           spreadRadius: 2,
-                    //           blurRadius: 10,
-                    //           color: Colors.black.withOpacity(0.1)),
-                    //     ],
-                    //     shape: BoxShape.circle,
-                    //     image: DecorationImage(
-                    //       fit: BoxFit.cover,
-                    //       image: NetworkImage(
-                    //         widget.userDetail['imgUrl'],
-                    //       ),
-                    //     ),
-                    //   ),
-                    // ),
-                    // Positioned(
-                    //   bottom: 0,
-                    //   right: 0,
-                    //   child: Container(
-                    //     height: 40,
-                    //     width: 40,
-                    //     decoration: BoxDecoration(
-                    //         shape: BoxShape.circle,
-                    //         border: Border.all(
-                    //           width: 4,
-                    //           color: Colors.white,
-                    //         ),
-                    //         color: Colors.blue),
-                    //     child: Icon(
-                    //       Icons.edit,
-                    //       color: Colors.white,
-                    //     ),
-                    //   ),
-                    // ),
                     ClipOval(
                         child: Material(
                             color: Colors.transparent,
@@ -287,7 +249,7 @@ class _EditUserProfileState extends State<EditUserProfile> {
                   ),
                   ElevatedButton(
                     onPressed: () {
-                      // _uploadPdf();
+                      _uploadPdf();
                     },
                     child: Text("Télécharger un Devis",
                         style: TextStyle(
@@ -400,37 +362,37 @@ class _EditUserProfileState extends State<EditUserProfile> {
     });
   }
 
-  // Future<void> _uploadPdf() async {
-  //   //pick pdf file
-  //   FilePickerResult? result = await FilePicker.platform.pickFiles();
-  //   File pdfFile = File(result!.files.single.path.toString());
-  //   //var file = pick.readAsBytesSync();
-  //   String name = "Devis_${widget.userDetail['uid']}_${Timestamp.now().seconds}.pdf";
-  //   setState(() {
-  //     isLoading = true;
-  //   });
-  //   // upload file
-  //   //var pdfFile = FirebaseStorage.instance.ref().child(name).child(("/.pdf"));
-  //
-  //   TaskSnapshot snapshot = await storage.ref(name).putFile(
-  //       pdfFile,
-  //       SettableMetadata(customMetadata: {
-  //         'uploaded_by': '${widget.userDetail['uid']}',
-  //         'description': 'Image de profile User ${widget.userDetail['uid']}'
-  //       }
-  //   ));
-  //   if(snapshot.state == TaskState.success){
-  //     final String url = await snapshot.ref.getDownloadURL();
-  //     //upload url to cloud firebase
-  //     await FirebaseFirestore.instance
-  //         .collection("user")
-  //         .doc(widget.userDetail['facture'])
-  //         .update({"facture":url});
-  //     _getActualUser();
-  //   }
-  //   //refresh the ui
-  //   setState(() {
-  //     isLoading = false;
-  //   });
-  // }
+  Future<void> _uploadPdf() async {
+    //pick pdf file
+    FilePickerResult? result = await FilePicker.platform.pickFiles();
+    File pdfFile = File(result!.files.single.path.toString());
+    //var file = pick.readAsBytesSync();
+    String name = "Devis_${widget.userDetail['uid']}_${Timestamp.now().seconds}.pdf";
+    setState(() {
+      isLoading = true;
+    });
+    // upload file
+    //var pdfFile = FirebaseStorage.instance.ref().child(name).child(("/.pdf"));
+
+    TaskSnapshot snapshot = await storage.ref(name).putFile(
+        pdfFile,
+        SettableMetadata(customMetadata: {
+          'uploaded_by': '${widget.userDetail['uid']}',
+          'description': 'Image de profile User ${widget.userDetail['uid']}'
+        }
+    ));
+    if(snapshot.state == TaskState.success){
+      final String url = await snapshot.ref.getDownloadURL();
+      //upload url to cloud firebase
+      await FirebaseFirestore.instance
+          .collection("users")
+          .doc(widget.userDetail['uid'])
+          .update({"facture":url});
+      _getActualUser();
+    }
+    //refresh the ui
+    setState(() {
+      isLoading = false;
+    });
+  }
 }

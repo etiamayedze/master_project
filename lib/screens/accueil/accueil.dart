@@ -45,14 +45,16 @@ class _AccueilState extends State<Accueil> {
           mainAxisSize: MainAxisSize.min,
           children: [
             Text('DJ ',
-                style: GoogleFonts.mochiyPopOne(
+                style: TextStyle(
                   color: CupertinoColors.black,
-                  fontSize: 25,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 30,
                 )),
             Text('Booking',
-                style: GoogleFonts.mochiyPopOne(
+                style: TextStyle(
                   color: Colors.blue,
-                  fontSize: 25,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 30,
                 ))
           ],
         ),

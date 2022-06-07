@@ -28,8 +28,8 @@ class _RechercheState extends State<Recherche> {
         title: TextFormField(
           style: TextStyle(
             color: Colors.black,
+            fontWeight: FontWeight.bold,
             fontSize: 20,
-            fontWeight: FontWeight.normal,
           ),
           controller: rechercheController,
           decoration: InputDecoration(

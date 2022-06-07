@@ -29,11 +29,11 @@ class _AddPostState extends State<AddPost> {
         context: context,
         builder: (context) {
           return SimpleDialog(
-            title: const Text('Create a post'),
+            title: const Text('Créer un post'),
             children: [
               SimpleDialogOption(
                 padding: const EdgeInsets.all(20),
-                child: const Text('Take a photo'),
+                child: const Text('Prendre une photo'),
                 onPressed: () async {
                   Navigator.of(context).pop();
                   Uint8List file = await pickImage(
@@ -46,7 +46,7 @@ class _AddPostState extends State<AddPost> {
               ),
               SimpleDialogOption(
                 padding: const EdgeInsets.all(20),
-                child: const Text('Choose from gallery '),
+                child: const Text('Choisir à partir de la gallerie'),
                 onPressed: () async {
                   Navigator.of(context).pop();
                   Uint8List file = await pickImage(
@@ -59,7 +59,7 @@ class _AddPostState extends State<AddPost> {
               ),
               SimpleDialogOption(
                 padding: const EdgeInsets.all(20),
-                child: const Text('Cancel'),
+                child: const Text('Annuler'),
                 onPressed: () async {
                   Navigator.of(context).pop();
                 },
@@ -85,7 +85,7 @@ class _AddPostState extends State<AddPost> {
         setState(() {
           _isLoading = false;
         });
-        showSnacBar(context, 'Posted!');
+        showSnacBar(context, 'Story Poster!');
         clearImage();
       } else {
         setState(() {
@@ -171,14 +171,14 @@ class _AddPostState extends State<AddPost> {
                 icon: const Icon(Icons.arrow_back),
                 onPressed: clearImage,
               ),
-              title: const Text('Post to'),
+              title: const Text('Post'),
               centerTitle: false,
               actions: [
                 TextButton(
                     onPressed: () => postImage(
                         loginUser.uid, loginUser.nom, loginUser.imgUrl),
                     child: const Text(
-                      'post',
+                      'Poster',
                       style: TextStyle(
                         color: Colors.blueAccent,
                         fontWeight: FontWeight.bold,

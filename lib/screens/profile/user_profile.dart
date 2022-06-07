@@ -69,8 +69,9 @@ class _UserProfileState extends State<UserProfile> {
         appBar: AppBar(
           title: Text("${userData['nom']} ${userData['prenom']}",
               textAlign: TextAlign.left,
-              style: GoogleFonts.mochiyPopOne(
+              style: TextStyle(
                 color: CupertinoColors.black,
+                fontWeight: FontWeight.bold,
                 fontSize: 20,
               )),
           backgroundColor: Colors.grey,
@@ -137,9 +138,10 @@ class _UserProfileState extends State<UserProfile> {
                     children: [
                       Text(
                         "${userData['username']}",
-                        style: GoogleFonts.mochiyPopOne(
+                        style: TextStyle(
                           color: CupertinoColors.black,
-                          fontSize: 15,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 20,
                         ),
                       ),
                     ],
@@ -151,9 +153,10 @@ class _UserProfileState extends State<UserProfile> {
                     children: [
                       Text(
                         "${userData['ville']} ${userData['pays']}",
-                        style: GoogleFonts.mochiyPopOne(
+                        style: TextStyle(
                           color: CupertinoColors.secondaryLabel,
-                          fontSize: 12,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 15,
                         ),
                       ),
                     ],
@@ -170,9 +173,10 @@ class _UserProfileState extends State<UserProfile> {
                 children: [
                   Text(
                     "${userData['bio']}",
-                    style: GoogleFonts.mochiyPopOne(
+                    style: TextStyle(
                       color: CupertinoColors.secondaryLabel,
-                      fontSize: 12,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 15,
                     ),
                   ),
                 ],
