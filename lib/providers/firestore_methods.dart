@@ -108,7 +108,7 @@ class FirestoreMethods {
   }
 
   Future updateUserData(String uid,String nom, String prenom, String username,
-      String bio, String pays, String ville) async {
+      String bio, String pays, String ville, String demoLink) async {
     try{
       await _firestore.collection('users').doc(uid).update({
         'nom':nom,
@@ -117,6 +117,7 @@ class FirestoreMethods {
         'bio':bio,
         'pays':pays,
         'ville':ville,
+        'demoLink':demoLink,
       });
 
     }catch(err){

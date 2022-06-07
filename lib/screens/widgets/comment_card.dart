@@ -38,11 +38,15 @@ class _CardCommentState extends State<CardComment> {
                         TextSpan(
                           text: widget.snap['name'],
                           style: const TextStyle(
+                            color: Colors.black,
                               fontWeight: FontWeight.bold,
                           ),
                         ),
                         TextSpan(
                           text: '${widget.snap['text']}',
+                          style: const TextStyle(
+                            color: Colors.black,
+                          ),
                         ),
                       ],
                     ),

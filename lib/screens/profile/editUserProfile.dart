@@ -1,13 +1,18 @@
+import 'dart:convert';
+import 'dart:math';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:master_project/providers/firestore_methods.dart';
-import 'package:master_project/providers/get_user.dart';
-
+import 'package:master_project/widgets/customedButton.dart';
 import '../../data/models/user_model.dart';
+import 'dart:io';
+import 'package:file_picker/file_picker.dart';
 
 class EditUserProfile extends StatefulWidget {
   final userDetail;
@@ -26,6 +31,7 @@ class _EditUserProfileState extends State<EditUserProfile> {
   TextEditingController userVilleController = TextEditingController();
   TextEditingController userImageController = TextEditingController();
   TextEditingController userFactureController = TextEditingController();
+  TextEditingController userDemoLinkController = TextEditingController();
 
   bool isLoading = false;
 
@@ -37,6 +43,7 @@ class _EditUserProfileState extends State<EditUserProfile> {
     userBioController.text = "${widget.userDetail['bio']}";
     userPaysController.text = "${widget.userDetail['pays']}";
     userVilleController.text = "${widget.userDetail['ville']}";
+    userDemoLinkController.text = "${widget.userDetail['demoLink']}";
     super.initState();
     _getActualUser();
   }
@@ -45,9 +52,6 @@ class _EditUserProfileState extends State<EditUserProfile> {
   FirebaseStorage storage = FirebaseStorage.instance;
   UserModel loginUser = UserModel();
   _getActualUser() async {
-    setState(() {
-      isLoading = true;
-    });
     await FirebaseFirestore.instance
         .collection("users")
         .doc(user!.uid)
@@ -59,9 +63,6 @@ class _EditUserProfileState extends State<EditUserProfile> {
 
   @override
   Widget build(BuildContext context) {
-
-
-
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: true,
@@ -90,43 +91,81 @@ class _EditUserProfileState extends State<EditUserProfile> {
               Center(
                 child: Stack(
                   children: [
-                    Container(
-                      width: 130,
-                      height: 130,
-                      decoration: BoxDecoration(
-                        border: Border.all(width: 4, color: Colors.white),
-                        boxShadow: [
-                          BoxShadow(
-                              spreadRadius: 2,
-                              blurRadius: 10,
-                              color: Colors.black.withOpacity(0.1)),
-                        ],
-                        shape: BoxShape.circle,
-                        image: DecorationImage(
-                          fit: BoxFit.cover,
-                          image: NetworkImage(
-                            widget.userDetail['imgUrl'],
-                          ),
-                        ),
-                      ),
-                    ),
+                    // Container(
+                    //   width: 130,
+                    //   height: 130,
+                    //   decoration: BoxDecoration(
+                    //     border: Border.all(width: 4, color: Colors.white),
+                    //     boxShadow: [
+                    //       BoxShadow(
+                    //           spreadRadius: 2,
+                    //           blurRadius: 10,
+                    //           color: Colors.black.withOpacity(0.1)),
+                    //     ],
+                    //     shape: BoxShape.circle,
+                    //     image: DecorationImage(
+                    //       fit: BoxFit.cover,
+                    //       image: NetworkImage(
+                    //         widget.userDetail['imgUrl'],
+                    //       ),
+                    //     ),
+                    //   ),
+                    // ),
+                    // Positioned(
+                    //   bottom: 0,
+                    //   right: 0,
+                    //   child: Container(
+                    //     height: 40,
+                    //     width: 40,
+                    //     decoration: BoxDecoration(
+                    //         shape: BoxShape.circle,
+                    //         border: Border.all(
+                    //           width: 4,
+                    //           color: Colors.white,
+                    //         ),
+                    //         color: Colors.blue),
+                    //     child: Icon(
+                    //       Icons.edit,
+                    //       color: Colors.white,
+                    //     ),
+                    //   ),
+                    // ),
+                    ClipOval(
+                        child: Material(
+                            color: Colors.transparent,
+                            child: Ink.image(
+                              image: widget.userDetail['imgUrl'] != ""
+                                  ? NetworkImage(
+                                      "${widget.userDetail['imgUrl']}")
+                                  : NetworkImage(
+                                      "https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png"),
+                              fit: BoxFit.cover,
+                              width: 128,
+                              height: 128,
+                              child: InkWell(onTap: () {
+                                _upload('gallery');
+                              }),
+                            ))),
                     Positioned(
                       bottom: 0,
-                      right: 0,
-                      child: Container(
-                        height: 40,
-                        width: 40,
-                        decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            border: Border.all(
-                              width: 4,
-                              color: Colors.white,
-                            ),
-                            color: Colors.blue),
-                        child: Icon(
-                          Icons.edit,
-                          color: Colors.white,
-                        ),
+                      right: 4,
+                      child: ClipOval(
+                        child: Container(
+                            padding: EdgeInsets.all(4),
+                            color: Colors.white,
+                            child: ClipOval(
+                              child: Container(
+                                padding: EdgeInsets.all(8),
+                                color: Colors.blue,
+                                child: Icon(
+                                  loginUser.imgUrl == ""
+                                      ? Icons.add_a_photo
+                                      : Icons.edit,
+                                  color: Colors.white,
+                                  size: 20,
+                                ),
+                              ),
+                            )),
                       ),
                     ),
                   ],
@@ -227,25 +266,10 @@ class _EditUserProfileState extends State<EditUserProfile> {
               Padding(
                 padding: EdgeInsets.only(bottom: 30),
                 child: TextField(
-                  controller: userNameController,
+                  controller: userDemoLinkController,
                   decoration: InputDecoration(
                     contentPadding: EdgeInsets.only(bottom: 5),
-                    labelText: "Nom",
-                    floatingLabelBehavior: FloatingLabelBehavior.always,
-                    hintStyle: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.grey),
-                  ),
-                ),
-              ),
-              Padding(
-                padding: EdgeInsets.only(bottom: 30),
-                child: TextField(
-                  controller: userNameController,
-                  decoration: InputDecoration(
-                    contentPadding: EdgeInsets.only(bottom: 5),
-                    labelText: "Nom",
+                    labelText: "Lien vers démo",
                     floatingLabelBehavior: FloatingLabelBehavior.always,
                     hintStyle: TextStyle(
                         fontSize: 16,
@@ -255,7 +279,27 @@ class _EditUserProfileState extends State<EditUserProfile> {
                 ),
               ),
 
-              SizedBox(height: 10),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  SizedBox(
+                    width: 2.0,
+                  ),
+                  ElevatedButton(
+                    onPressed: () {
+                      // _uploadPdf();
+                    },
+                    child: Text("Télécharger un Devis",
+                        style: TextStyle(
+                            fontSize: 15,
+                            letterSpacing: 2,
+                            color: Colors.white)),
+                  ),
+                ],
+              ),
+
+              SizedBox(height: 20),
+
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -273,14 +317,30 @@ class _EditUserProfileState extends State<EditUserProfile> {
                   ),
                   ElevatedButton(
                     onPressed: () async {
-                      if(userNameController.text=="" || userPrenomController.text=="" || userUsernamController.text=="" || userBioController=="" || userPaysController=="" || userVilleController==""){
-                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Les champs sont obligatoires!"),));
-                      }else{
-                        setState((){
+                      if (userNameController.text == "" ||
+                          userPrenomController.text == "" ||
+                          userUsernamController.text == "" ||
+                          userBioController == "" ||
+                          userPaysController == "" ||
+                          userVilleController == "" ||
+                          userDemoLinkController == "") {
+                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                          content: Text("Les champs sont obligatoires!"),
+                        ));
+                      } else {
+                        setState(() {
                           isLoading = true;
                         });
-                        await FirestoreMethods().updateUserData(widget.userDetail['uid'], userNameController.text, userPrenomController.text,userUsernamController.text,userBioController.text, userPaysController.text, userVilleController.text);
-                        setState((){
+                        await FirestoreMethods().updateUserData(
+                            widget.userDetail['uid'],
+                            userNameController.text,
+                            userPrenomController.text,
+                            userUsernamController.text,
+                            userBioController.text,
+                            userPaysController.text,
+                            userVilleController.text,
+                            userDemoLinkController.text);
+                        setState(() {
                           isLoading = false;
                         });
                         Navigator.pop(context);
@@ -305,4 +365,72 @@ class _EditUserProfileState extends State<EditUserProfile> {
       ),
     );
   }
+
+  Future<void> _upload(String inputSource) async {
+    final picker = ImagePicker();
+    XFile? pickedImage;
+
+    pickedImage =
+        await picker.pickImage(source: ImageSource.gallery, maxWidth: 1920);
+
+    final String fileName =
+        "img_profile_${widget.userDetail['uid']}_${Timestamp.now().seconds}.jpg";
+    File imageFile = File(pickedImage!.path);
+    setState(() {
+      isLoading = true;
+    });
+    // Uploading the selected image with some custom meta data
+    TaskSnapshot snapshot = await storage.ref(fileName).putFile(
+        imageFile,
+        SettableMetadata(customMetadata: {
+          'uploaded_by': '${widget.userDetail['uid']}',
+          'description': 'Image de profile User ${widget.userDetail['uid']}'
+        }));
+    if (snapshot.state == TaskState.success) {
+      final String downloadUrl = await snapshot.ref.getDownloadURL();
+      await FirebaseFirestore.instance
+          .collection("users")
+          .doc(widget.userDetail['uid'])
+          .update({"imgUrl": downloadUrl});
+      _getActualUser();
+    }
+    // Refresh the UI
+    setState(() {
+      isLoading = false;
+    });
+  }
+
+  // Future<void> _uploadPdf() async {
+  //   //pick pdf file
+  //   FilePickerResult? result = await FilePicker.platform.pickFiles();
+  //   File pdfFile = File(result!.files.single.path.toString());
+  //   //var file = pick.readAsBytesSync();
+  //   String name = "Devis_${widget.userDetail['uid']}_${Timestamp.now().seconds}.pdf";
+  //   setState(() {
+  //     isLoading = true;
+  //   });
+  //   // upload file
+  //   //var pdfFile = FirebaseStorage.instance.ref().child(name).child(("/.pdf"));
+  //
+  //   TaskSnapshot snapshot = await storage.ref(name).putFile(
+  //       pdfFile,
+  //       SettableMetadata(customMetadata: {
+  //         'uploaded_by': '${widget.userDetail['uid']}',
+  //         'description': 'Image de profile User ${widget.userDetail['uid']}'
+  //       }
+  //   ));
+  //   if(snapshot.state == TaskState.success){
+  //     final String url = await snapshot.ref.getDownloadURL();
+  //     //upload url to cloud firebase
+  //     await FirebaseFirestore.instance
+  //         .collection("user")
+  //         .doc(widget.userDetail['facture'])
+  //         .update({"facture":url});
+  //     _getActualUser();
+  //   }
+  //   //refresh the ui
+  //   setState(() {
+  //     isLoading = false;
+  //   });
+  // }
 }
