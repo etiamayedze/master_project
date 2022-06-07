@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:master_project/providers/get_user.dart';
+
 
 class CardComment extends StatefulWidget {
   final snap;
