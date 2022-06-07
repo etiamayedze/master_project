@@ -2,10 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import '../widgets/post_card.dart';
-
-import 'package:google_fonts/google_fonts.dart';
 import 'package:lottie/lottie.dart';
-
 import '../chat/chatList.dart';
 
 class Accueil extends StatefulWidget {

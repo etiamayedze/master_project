@@ -1,5 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -20,7 +18,7 @@ class Booking extends StatefulWidget {
 }
 
 class _BookingState extends State<Booking> {
-  final _auth = FirebaseAuth.instance;
+
 
   bool _isLoading = false;
   TextEditingController dateinput = TextEditingController();
@@ -29,8 +27,6 @@ class _BookingState extends State<Booking> {
 
 
 
-
-  final _formKey = GlobalKey<FormState>();
   //final format = DateFormat('yyyy-MM-dd HH:mm');
 
   @override

@@ -7,8 +7,6 @@ import 'package:image_picker/image_picker.dart';
 import 'package:lottie/lottie.dart';
 import 'package:master_project/providers/firestore_methods.dart';
 import 'package:master_project/utils/utils.dart';
-import 'package:provider/provider.dart';
-
 import '../../data/models/user_model.dart';
 import '../profile/components/profile_menu.dart';
 

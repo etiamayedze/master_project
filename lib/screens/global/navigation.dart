@@ -1,14 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:lottie/lottie.dart';
 import 'package:master_project/screens/profile/user_profile.dart';
 import '../accueil/accueil.dart';
-import '../chat/chatList.dart';
-import '../profile/profile.dart';
-//import '../favoris/favoris.dart';
 import '../recherche/recherche.dart';
 import '../post/addPost.dart';
 

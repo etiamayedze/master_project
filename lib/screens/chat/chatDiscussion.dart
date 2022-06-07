@@ -5,10 +5,9 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:lottie/lottie.dart';
 import 'package:master_project/data/models/message_model.dart';
 import 'package:master_project/data/models/user_model.dart';
-import 'package:master_project/screens/chat/chatList.dart';
 import 'package:master_project/services/auth_service.dart';
 import 'package:master_project/services/dbservice.dart';
-import 'package:master_project/widgets/messageBlock.dart';
+import 'package:master_project/screens/widgets/messageBlock.dart';
 
 class ChatDiscussion extends StatefulWidget {
   const ChatDiscussion({Key? key, this.user}) : super(key: key);

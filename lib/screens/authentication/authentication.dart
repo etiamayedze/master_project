@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:master_project/screens/global/navigation.dart';
 import 'package:master_project/screens/signup/signup.dart';
-//import 'package:master_project/screens/home/homePage.dart';
 
 
 class LoginScreen extends StatefulWidget {

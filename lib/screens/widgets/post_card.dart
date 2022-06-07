@@ -4,7 +4,6 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:master_project/providers/firestore_methods.dart';
-import 'package:master_project/providers/get_user.dart';
 import 'package:master_project/screens/profile/components/profile_menu.dart';
 import 'package:master_project/screens/widgets/likes.dart';
 import 'package:master_project/screens/comment/comments.dart';

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../data/models/message_model.dart';
+import '../../data/models/message_model.dart';
 
 class MessageBlock extends StatelessWidget {
   const MessageBlock({Key? key, this.msg}) : super(key: key);

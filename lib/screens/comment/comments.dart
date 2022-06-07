@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:master_project/providers/firestore_methods.dart';
 import 'package:master_project/screens/widgets/comment_card.dart';
 import '../../data/models/user_model.dart';
-import '../../providers/get_user.dart';
 
 class Comment extends StatefulWidget {
   final snap;

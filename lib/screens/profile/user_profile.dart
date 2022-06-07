@@ -6,13 +6,10 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:master_project/data/models/user_model.dart';
 import 'package:master_project/screens/booking/booking.dart';
 import 'package:master_project/screens/booking/mesReservations.dart';
 import 'package:master_project/screens/profile/editUserProfile.dart';
-import 'package:master_project/services/auth_service.dart';
-import 'package:path_provider/path_provider.dart';
-import '../../widgets/customedButton.dart';
+import '../widgets/customedButton.dart';
 import '../signup/login.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -45,7 +42,6 @@ class _UserProfileState extends State<UserProfile> {
           .doc(widget.uid)
           .get();
 
-      UserModel user;
 
       var postsnap = await FirebaseFirestore.instance
           .collection('posts')
@@ -225,10 +221,10 @@ class _UserProfileState extends State<UserProfile> {
                             hauteur: 35,
                             label: "Booker",
                             function: () {
-                              var snapshot = FirebaseFirestore.instance
+                              /*var snapshot = FirebaseFirestore.instance
                                   .collection('users')
                                   .where('uid', isEqualTo: userData["uid"])
-                                  .snapshots();
+                                  .snapshots();*/
                               Navigator.of(context).push(
                                 MaterialPageRoute(
                                   builder: (context) => Booking(
@@ -380,7 +376,7 @@ class _UserProfileState extends State<UserProfile> {
   Future<void> downloadFile() async {
     final httpsReference =
         FirebaseStorage.instance.refFromURL("${userData['facture']}");
-    final appDocDir = await getApplicationDocumentsDirectory();
+    //final appDocDir = await getApplicationDocumentsDirectory();
     File downloadToFile = File('/storage/emulated/0/Download/devis.pdf');
     print(downloadToFile);
     final downloadTask = httpsReference.writeToFile(downloadToFile);

@@ -1,15 +1,11 @@
-import 'dart:convert';
-import 'dart:math';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:master_project/providers/firestore_methods.dart';
-import 'package:master_project/widgets/customedButton.dart';
 import '../../data/models/user_model.dart';
 import 'dart:io';
 import 'package:file_picker/file_picker.dart';
@@ -251,7 +247,7 @@ class _EditUserProfileState extends State<EditUserProfile> {
                     onPressed: () {
                       _uploadPdf();
                     },
-                    child: Text("Télécharger un Devis",
+                    child: Text("Uploader un Devis",
                         style: TextStyle(
                             fontSize: 15,
                             letterSpacing: 2,
