@@ -69,7 +69,7 @@ Ci-dessous le lien vers une vidéo démo sur YouTube :
 
 
 ## Information
-Une erreur liée à un package (le image_picker) nous a empêché de faire le build suite à une mise à jour de la version du package
+Une erreur liée à un package (le image_picker) nous a empêché de générer une APK executable suite à une mise à jour de la version du package
 ci-dessous le lien de l'issue 
 - [Lien issue image_picker empechant le buid](https://issuetracker.google.com/issues/234820023)
 
