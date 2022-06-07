@@ -95,7 +95,7 @@ class _CommentState extends State<Comment> {
                   child: TextField(
                     controller: _commentController,
                     decoration: InputDecoration(
-                      hintText: 'Commentaire de ${loginUser.nom} ',
+                      hintText: ' Votre commentaire',
                       border: InputBorder.none,
                     ),
                   ),
