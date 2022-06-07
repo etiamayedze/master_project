@@ -1,37 +1,45 @@
+class BookingModel {
+  final String book_id;
+  final String uid_user;
+  final String uid_dj;
+  final String commentaire;
+  final int accept;
+  final String date_prestation;
+  final String heure_prestation;
 
-class Booking {
-  String? uid_book;
-  String? uid_user;
-  String? uid_dj;
-  String? commentaire;
-  String? accept;
-  String? date_prestation;
+  BookingModel({
+    required this.book_id,
+    required this.uid_user,
+    required this.uid_dj,
+    required this.commentaire,
+    required this.accept,
+    required this.date_prestation,
+    required this.heure_prestation,
+  });
 
-  Booking(
-      {this.uid_book,
-      this.uid_user,
-      this.uid_dj,
-      this.commentaire,
-      this.accept,
-      this.date_prestation});
-
-  Booking.fromJson(Map<String, dynamic> json) {
-    uid_book = json["uid_book"];
-    uid_user = json["uid_user"];
-    uid_dj = json["uid_dj"];
-    commentaire = json["commentaire"];
-    accept = json["accept"];
-    date_prestation = json["date_prestation"];
+  //retour serveur
+  factory BookingModel.fromMap(map) {
+    return BookingModel(
+      book_id: map['book_id'],
+      uid_user: map['uid_user'],
+      uid_dj: map['uid_dj'],
+      commentaire: map['commentaire'],
+      accept: map['accept'],
+      date_prestation: map['date_prestation'],
+      heure_prestation: map['heure_prestation'],
+    );
   }
 
-  Map<String, dynamic> toJson() {
+  //envoie vers le serveur
+  Map<String, dynamic> toMap() {
     return {
-      "uid_book": uid_book,
-      "uid_user": uid_user,
-      "uid_dj": uid_dj,
-      "commentaire": commentaire,
-      "accept": accept,
-      "date_prestation": date_prestation,
+      'book_id': book_id,
+      'uid_user': uid_user,
+      'uid_dj': uid_dj,
+      'commentaire': commentaire,
+      'accept': accept,
+      'date_prestation': date_prestation,
+      'heure_prestation': heure_prestation
     };
   }
 }
