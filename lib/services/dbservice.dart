@@ -4,6 +4,7 @@ import 'package:master_project/data/models/user_model.dart';
 import 'package:master_project/services/auth_service.dart';
 import 'package:uuid/uuid.dart';
 import '../data/models/booking_model.dart';
+import 'package:master_project/services/notifications/notification.dart';
 import 'auth_service.dart';
 
 class DbServices {
@@ -49,6 +50,9 @@ class DbServices {
   Future<bool> sendMessage(Message msg) async {
     try {
       await messageCollection.doc().set(msg.toJson());
+      print("hello notif");
+
+
       return true;
     } catch (e) {
       return false;
