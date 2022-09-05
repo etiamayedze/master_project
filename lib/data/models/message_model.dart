@@ -1,16 +1,16 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:master_project/services/auth_service.dart';
 
-class Message{
+class Messenger{
   String? uid;
   String? contenu;
   String? senderID;
   String? receiverID;
   Timestamp? deliveryDate;
 
-  Message({this.uid, this.contenu, this.senderID, this.receiverID, this.deliveryDate});
+  Messenger({this.uid, this.contenu, this.senderID, this.receiverID, this.deliveryDate});
 
-  Message.fromJson(Map<String, dynamic> json, String id){
+  Messenger.fromJson(Map<String, dynamic> json, String id){
     uid = id;
     contenu = json['contenu'];
     senderID = json['senderID'];

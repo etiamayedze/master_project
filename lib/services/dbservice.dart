@@ -4,7 +4,6 @@ import 'package:master_project/data/models/user_model.dart';
 import 'package:master_project/services/auth_service.dart';
 import 'package:uuid/uuid.dart';
 import '../data/models/booking_model.dart';
-import 'package:master_project/services/notifications/notification.dart';
 import 'auth_service.dart';
 
 class DbServices {
@@ -36,7 +35,7 @@ class DbServices {
         event.docs.map((e) => BookingModel.fromMap(e.data())).toList());
   }
 
-  Stream<List<Message>> getMessage(String receiverID, [bool myMessage = true]) {
+  Stream<List<Messenger>> getMessage(String receiverID, [bool myMessage = true]) {
     return messageCollection
         .where('senderID',
             isEqualTo: myMessage ? AuthServices().user?.uid : receiverID)
@@ -44,15 +43,12 @@ class DbServices {
             isEqualTo: myMessage ? receiverID : AuthServices().user?.uid)
         .snapshots()
         .map((event) =>
-            event.docs.map((e) => Message.fromJson(e.data(), e.id)).toList());
+            event.docs.map((e) => Messenger.fromJson(e.data(), e.id)).toList());
   }
 
-  Future<bool> sendMessage(Message msg) async {
+  Future<bool> sendMessage(Messenger msg) async {
     try {
       await messageCollection.doc().set(msg.toJson());
-      print("hello notif");
-
-
       return true;
     } catch (e) {
       return false;

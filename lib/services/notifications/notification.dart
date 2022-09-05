@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
@@ -30,7 +31,7 @@ class _PushNotificationState extends State<PushNotification> {
   }
 
   void saveToken(String token) async {
-    await FirebaseFirestore.instance.collection("users").doc('id').set({
+    await FirebaseFirestore.instance.collection("users").doc(FirebaseAuth.instance.currentUser!.uid).set({
       'token' : token,
     });
   }
@@ -155,6 +156,24 @@ class _PushNotificationState extends State<PushNotification> {
 
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return Scaffold(
+      body: Center(
+        child: GestureDetector(
+          onTap: () async {
+            String title = "Message";
+            String body = "Vous avez reçu un message" ;
+
+            DocumentSnapshot snap =
+            await FirebaseFirestore.instance.collection("users").doc(FirebaseAuth.instance.currentUser!.uid).get();
+
+            String token = snap['token'];
+            print(token);
+
+            sendPushMessage(body,title,token);
+          },
+        ),
+      ),
+
+    );
   }
 }
