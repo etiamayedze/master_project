@@ -9,6 +9,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:master_project/screens/booking/booking.dart';
 import 'package:master_project/screens/booking/mesReservations.dart';
 import 'package:master_project/screens/profile/editUserProfile.dart';
+import '../chat/chatDiscussion.dart';
 import '../widgets/customedButton.dart';
 import '../signup/login.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -207,8 +208,7 @@ class _UserProfileState extends State<UserProfile> {
                   ),
                 ],
               ),
-              FirebaseAuth.instance.currentUser!.uid != widget.uid
-                  ? Row(
+              if (FirebaseAuth.instance.currentUser!.uid != widget.uid) Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         SizedBox(
@@ -241,7 +241,7 @@ class _UserProfileState extends State<UserProfile> {
                         CustomedButton(
                             longueur: 100,
                             hauteur: 35,
-                            label: "Devis",
+                            label: "Pro format",
                             function: () {
                               downloadFile();
                             }),
@@ -254,10 +254,9 @@ class _UserProfileState extends State<UserProfile> {
                             longueur: 100,
                             hauteur: 35,
                             label: "Message",
-                            function: () {}),
+                            function: () { }),
                       ],
-                    )
-                  : Row(
+                    ) else Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         SizedBox(
